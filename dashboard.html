@@ -3,127 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Family Financial Dashboard — 2026</title>
+<title>Family Expense Dashboard — 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #ffffff;
-    --bg2: #f7f7f5;
-    --bg3: #f0efe8;
-    --text: #1a1a18;
-    --text2: #5f5e5a;
-    --text3: #888780;
-    --border: rgba(0,0,0,0.1);
-    --border2: rgba(0,0,0,0.18);
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --coral: #D85A30;
-    --amber: #BA7517;
-    --blue: #185FA5;
-    --purple: #534AB7;
-    --green: #3B6D11;
-    --teal: #0F6E56;
-    --red-bg: #FCEBEB; --red-text: #A32D2D;
-    --amber-bg: #FAEEDA; --amber-text: #854F0B;
-    --green-bg: #E1F5EE; --green-text: #0F6E56;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a; --bg2: #252523; --bg3: #2e2e2b;
-      --text: #f0efe8; --text2: #b4b2a9; --text3: #888780;
-      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
-      --red-bg: #3a1a1a; --red-text: #f09595;
-      --amber-bg: #2e2210; --amber-text: #FAC775;
-      --green-bg: #0d2318; --green-text: #9FE1CB;
-    }
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); line-height: 1.6; }
-  .page { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem; }
-  header { margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border2); }
-  header h1 { font-size: 22px; font-weight: 500; color: var(--text); }
-  header p { font-size: 13px; color: var(--text2); margin-top: 4px; }
-  .section-lbl { font-size: 10px; font-weight: 500; color: var(--text3); letter-spacing: .07em; text-transform: uppercase; margin: 2rem 0 0.75rem; }
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-  .kpi { background: var(--bg2); border-radius: var(--radius-md); padding: 0.85rem 1rem; }
-  .kpi-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
-  .kpi-val { font-size: 20px; font-weight: 500; }
-  .kpi-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
-  .v-green { color: #1D9E75; } .v-red { color: #D85A30; } .v-amber { color: #BA7517; }
-  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
-  .card-title { font-size: 13px; font-weight: 500; margin-bottom: 0.75rem; }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media(max-width:600px){ .two-col { grid-template-columns: 1fr; } }
-  .chart-wrap { position: relative; width: 100%; }
-  .flow-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
-  .flow-row:last-child { border-bottom: none; }
-  .flow-label { color: var(--text2); }
-  .flow-amt { font-weight: 500; }
-  .alert { border-left: 3px solid; border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 0.6rem 0.85rem; margin-bottom: 0.6rem; font-size: 12px; }
-  .alert-red { background: var(--red-bg); border-color: var(--red-text); color: var(--red-text); }
-  .alert-amber { background: var(--amber-bg); border-color: var(--amber-text); color: var(--amber-text); }
-  .alert-green { background: var(--green-bg); border-color: var(--green-text); color: var(--green-text); }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
-  .tab { font-size: 11px; padding: 4px 12px; border: 0.5px solid var(--border2); border-radius: 20px; background: transparent; color: var(--text2); cursor: pointer; font-family: inherit; transition: all .15s; }
-  .tab.on { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--border); }
-  .cat-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
-  .cat-name { font-size: 15px; font-weight: 500; flex: 1; }
-  .cat-total { font-size: 15px; font-weight: 500; }
-  .cat-avg { font-size: 11px; color: var(--text3); margin-left: 4px; }
-  .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 1.25rem; }
-  .mo-card { background: var(--bg2); border-radius: var(--radius-md); padding: 0.6rem 0.75rem; }
-  .mo-lbl { font-size: 10px; color: var(--text3); margin-bottom: 2px; }
-  .mo-val { font-size: 16px; font-weight: 500; }
-  .mo-delta { font-size: 10px; margin-top: 1px; }
-  .up { color: #D85A30; } .dn { color: #1D9E75; } .neu { color: var(--text3); }
-  .sub-group { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 0.85rem 1rem; margin-bottom: 0.75rem; }
-  .sg-title { font-size: 10px; font-weight: 500; color: var(--text3); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: .05em; }
-  .merchant-row { display: flex; align-items: center; padding: 5px 0; border-bottom: 0.5px solid var(--border); gap: 8px; }
-  .merchant-row:last-child { border-bottom: none; }
-  .m-name { font-size: 12px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .m-count { font-size: 11px; color: var(--text3); min-width: 50px; text-align: right; }
-  .m-amt { font-size: 12px; font-weight: 500; min-width: 60px; text-align: right; }
-  .bar-bg { flex: 0 0 80px; height: 5px; background: var(--border); border-radius: 3px; }
-  .bar-f { height: 5px; border-radius: 3px; }
-  .insight { background: var(--bg2); border-radius: var(--radius-md); padding: 0.6rem 0.85rem; font-size: 12px; color: var(--text2); margin-top: 0.75rem; }
-  .insight b { color: var(--text); font-weight: 500; }
-  .notable-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
-  .notable-row:last-child { border-bottom: none; }
-  .n-label { color: var(--text2); }
-  footer { margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 11px; color: var(--text3); text-align: center; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#ffffff;--bg2:#f7f7f5;--bg3:#f0efe8;--text:#1a1a18;--text2:#5f5e5a;--text3:#888780;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);--rad-md:8px;--rad-lg:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0efe8;--text2:#b4b2a9;--text3:#888780;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2)}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);line-height:1.6;font-size:14px}
+.page{max-width:980px;margin:0 auto;padding:2rem 1.25rem}
+header{margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border2)}
+header h1{font-size:22px;font-weight:500}
+header p{font-size:12px;color:var(--text2);margin-top:3px}
+.badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500;display:inline-block;margin-top:6px;margin-right:4px}
+.bnew{background:#E1F5EE;color:#085041}.bsrc{background:#E6F1FB;color:#0C447C}
+.sec{font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin:2rem 0 0.75rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:10px;margin-bottom:1rem}
+.kpi{background:var(--bg2);border-radius:var(--rad-md);padding:0.85rem 1rem}
+.kpi-l{font-size:11px;color:var(--text2);margin-bottom:4px}
+.kpi-v{font-size:20px;font-weight:500}
+.kpi-s{font-size:11px;color:var(--text3);margin-top:2px}
+.vg{color:#1D9E75}.vr{color:#D85A30}.va{color:#BA7517}.vb{color:#185FA5}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rad-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+.card-t{font-size:13px;font-weight:500;margin-bottom:0.75rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:640px){.two,.three{grid-template-columns:1fr}}
+.cw{position:relative;width:100%}
+.fr{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:12px;gap:8px}
+.fr:last-child{border-bottom:none}
+.fl{color:var(--text2);flex:1}
+.fa{font-weight:500;white-space:nowrap}
+.fs{font-size:10px;color:var(--text3);display:block}
+.divider{border-top:1px solid var(--border2);margin-top:4px;padding-top:8px}
+.alert{border-left:3px solid;border-radius:0 var(--rad-md) var(--rad-md) 0;padding:0.6rem 0.85rem;margin-bottom:0.6rem;font-size:12px;line-height:1.5}
+.ar{background:#FCEBEB;border-color:#A32D2D;color:#A32D2D}
+.aa{background:#FAEEDA;border-color:#854F0B;color:#854F0B}
+.ag{background:#E1F5EE;border-color:#0F6E56;color:#0F6E56}
+.alert b{font-weight:500}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{font-size:11px;padding:4px 12px;border:0.5px solid var(--border2);border-radius:20px;background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
+.tab.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.cat-hd{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:0.5px solid var(--border)}
+.cdot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.cname{font-size:15px;font-weight:500;flex:1}
+.mo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.mo-card{background:var(--bg2);border-radius:var(--rad-md);padding:0.6rem 0.75rem}
+.mo-l{font-size:10px;color:var(--text3);margin-bottom:2px}
+.mo-v{font-size:16px;font-weight:500}
+.mo-d{font-size:10px;margin-top:1px}
+.up{color:#D85A30}.dn{color:#1D9E75}.neu{color:var(--text3)}
+.sg{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rad-lg);padding:0.85rem 1rem;margin-bottom:0.75rem}
+.sg-t{font-size:10px;font-weight:500;color:var(--text3);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:.05em;display:flex;justify-content:space-between}
+.mr{display:flex;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--border);gap:8px}
+.mr:last-child{border-bottom:none}
+.mn{font-size:12px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.mc{font-size:11px;color:var(--text3);min-width:44px;text-align:right}
+.ma{font-size:12px;font-weight:500;min-width:58px;text-align:right;color:var(--text)}
+.bb{flex:0 0 70px;height:5px;background:var(--border);border-radius:3px}
+.bf{height:5px;border-radius:3px}
+.insight{background:var(--bg2);border-radius:var(--rad-md);padding:0.6rem 0.85rem;font-size:12px;color:var(--text2);margin-top:0.75rem;line-height:1.6}
+.insight b{color:var(--text);font-weight:500}
+footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);text-align:center}
 </style>
 </head>
 <body>
 <div class="page">
 
 <header>
-  <h1>Family financial dashboard — 2026</h1>
-  <p>SAB accounts · Jan – Apr 2026 · All amounts in SAR unless noted · Based on bank statements</p>
+  <div>
+    <h1>Family expense dashboard — 2026</h1>
+    <p>SAB Visa · AlRajhi current account · Jan – Apr 2026 · All amounts SAR · Expenses only</p>
+    <span class="badge bnew">v3 — expenses only</span>
+    <span class="badge bsrc">SAB + AlRajhi · 10 statements</span>
+  </div>
 </header>
 
-<!-- KPIs -->
-<div class="section-lbl">Income & overview</div>
+<!-- KPIs — expense focused only -->
+<div class="sec">Expense overview — Jan to Apr 2026</div>
 <div class="kpi-grid">
-  <div class="kpi"><div class="kpi-label">Monthly salary</div><div class="kpi-val">40,013</div><div class="kpi-sub">Postal Services Co.</div></div>
-  <div class="kpi"><div class="kpi-label">Mar annual bonus</div><div class="kpi-val v-amber">150,052</div><div class="kpi-sub">One-off, deployed immediately</div></div>
-  <div class="kpi"><div class="kpi-label">Avg visa spend / mo</div><div class="kpi-val v-red">~15,374</div><div class="kpi-sub">Jan–Mar average</div></div>
-  <div class="kpi"><div class="kpi-label">Fixed outflows / mo</div><div class="kpi-val v-red">~22,300</div><div class="kpi-sub">Savings + investments + bills</div></div>
+  <div class="kpi"><div class="kpi-l">Monthly salary</div><div class="kpi-v">40,013</div><div class="kpi-s">Income reference only</div></div>
+  <div class="kpi"><div class="kpi-l">Avg Visa spend / mo</div><div class="kpi-v vr">~15,374</div><div class="kpi-s">Jan–Mar avg · Apr higher</div></div>
+  <div class="kpi"><div class="kpi-l">Fixed household / mo</div><div class="kpi-v va">~7,860</div><div class="kpi-s">Bills + staff + Lebanon</div></div>
+  <div class="kpi"><div class="kpi-l">Total expenses / mo</div><div class="kpi-v vr">~23,234</div><div class="kpi-s">Visa + fixed household</div></div>
+  <div class="kpi"><div class="kpi-l">Highest month</div><div class="kpi-v vr">Apr</div><div class="kpi-s">29,731 Visa + 12,510 due</div></div>
+  <div class="kpi"><div class="kpi-l">Refunds pending</div><div class="kpi-v va">4,550</div><div class="kpi-s">William + basketball (2 items)</div></div>
 </div>
 
-<!-- Spend trend -->
-<div class="section-lbl">Visa card total spend by month</div>
+<!-- Visa spend trend -->
+<div class="sec">SAB Visa card — monthly spend trend</div>
 <div class="card">
-  <div class="card-title">Monthly visa spend (SAR) — Jan to Apr 2026</div>
-  <div class="chart-wrap" style="height:200px">
-    <canvas id="trendChart" role="img" aria-label="Monthly visa card spend Jan 12118 Feb 17255 Mar 16749 Apr 29731">Jan: 12,118 / Feb: 17,255 / Mar: 16,749 / Apr: 29,731</canvas>
+  <div class="card-t">Total Visa spend by month (SAR) — Apr reflects full billing cycle</div>
+  <div class="cw" style="height:200px">
+    <canvas id="trendChart" role="img" aria-label="Monthly visa spend Jan 12118 Feb 17255 Mar 16749 Apr 29731">Jan 12,118 / Feb 17,255 / Mar 16,749 / Apr 29,731</canvas>
+  </div>
+</div>
+
+<!-- Category overview chart -->
+<div class="sec">Spend mix — 3-month average by category</div>
+<div class="two">
+  <div class="card">
+    <div class="card-t">Category breakdown (avg/mo)</div>
+    <div class="cw" style="height:220px">
+      <canvas id="mixChart" role="img" aria-label="Category spending mix donut chart">Food 3820, Groceries 2613, Household 2975, Lifestyle 2625, Online 1388, Telecom 980, Transport 860, Health 620, Utilities 350</canvas>
+    </div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;justify-content:center;gap:6px">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Monthly avg by category</div>
+    <div id="legendList"></div>
   </div>
 </div>
 
 <!-- Category drilldown -->
-<div class="section-lbl">Spend by category — click to drill down</div>
+<div class="sec">Visa spend — drill down by category</div>
 <div class="card">
-  <div class="tabs" id="tabs">
+  <div class="tabs">
     <button class="tab on" onclick="show(0,this)">Food & dining</button>
     <button class="tab" onclick="show(1,this)">Groceries</button>
     <button class="tab" onclick="show(2,this)">Household</button>
@@ -133,260 +126,310 @@
   <div id="panel"></div>
 </div>
 
-<!-- Fixed obligations -->
-<div class="section-lbl">Fixed monthly obligations</div>
-<div class="card">
-  <div class="flow-row"><span class="flow-label">SAB RSA savings transfer (standing order)</span><span class="flow-amt">13,000</span></div>
-  <div class="flow-row"><span class="flow-label">Abyan Capital investment (monthly)</span><span class="flow-amt">5,000</span></div>
-  <div class="flow-row"><span class="flow-label">Maharah HR / helper salary</span><span class="flow-amt">~1,933</span></div>
-  <div class="flow-row"><span class="flow-label">STC top-up / mobile (Walid)</span><span class="flow-amt">~1,005</span></div>
-  <div class="flow-row"><span class="flow-label">STC postpaid (Farah card)</span><span class="flow-amt">~958</span></div>
-  <div class="flow-row"><span class="flow-label">Al Manhal water</span><span class="flow-amt">260</span></div>
-  <div class="flow-row"><span class="flow-label">Saudi Electricity (SEC)</span><span class="flow-amt">~86–268</span></div>
-  <div class="flow-row"><span class="flow-label">Netflix + Amazon Prime</span><span class="flow-amt">~66</span></div>
-  <div class="flow-row" style="border-top: 1px solid var(--border2); margin-top:4px; padding-top:8px;">
-    <span style="font-weight:500">Estimated total fixed</span>
-    <span class="flow-amt v-red" style="font-size:14px">~22,300 / mo</span>
+<!-- Fixed household costs -->
+<div class="sec">Fixed household costs — all accounts</div>
+<div class="two">
+  <div class="card">
+    <div class="card-t">People & remittance</div>
+    <div class="fr"><span class="fl">Lebanon family transfer<span class="fs">~715 USD/mo · 3 channels</span></span><span class="fa">~2,680</span></div>
+    <div class="fr"><span class="fl">Kids driver — Mohamad Ahmad<span class="fs">AlRajhi · 1,000/mo</span></span><span class="fa">1,000</span></div>
+    <div class="fr"><span class="fl">Helper salary<span class="fs">Maharah HR + STC · ~1,800/mo</span></span><span class="fa">~1,800</span></div>
+    <div class="fr divider"><span class="fl" style="font-weight:500">Subtotal</span><span class="fa vr">~5,480</span></div>
+  </div>
+  <div class="card">
+    <div class="card-t">Bills & subscriptions</div>
+    <div class="fr"><span class="fl">STC mobile — Walid</span><span class="fa">~1,005</span></div>
+    <div class="fr"><span class="fl">STC postpaid — Farah card</span><span class="fa">~958</span></div>
+    <div class="fr"><span class="fl">Saudi Electricity (SEC)</span><span class="fa">~86–268</span></div>
+    <div class="fr"><span class="fl">Al Manhal water</span><span class="fa">~260</span></div>
+    <div class="fr"><span class="fl">Netflix</span><span class="fa">~50</span></div>
+    <div class="fr"><span class="fl">Amazon Prime</span><span class="fa">~16</span></div>
+    <div class="fr divider"><span class="fl" style="font-weight:500">Subtotal</span><span class="fa vr">~2,375</span></div>
   </div>
 </div>
 
-<!-- Notable transactions -->
-<div class="section-lbl">Notable & irregular transactions</div>
+<!-- Lebanon breakdown -->
+<div class="sec">Lebanon transfers — channel breakdown</div>
 <div class="card">
-  <div class="notable-row"><span class="n-label">15 Mar — transfer to AlRajhi (self)</span><span class="flow-amt v-red">80,000</span></div>
-  <div class="notable-row"><span class="n-label">18 Mar — transfer to AlRajhi (self)</span><span class="flow-amt v-red">35,000</span></div>
-  <div class="notable-row"><span class="n-label">15 Mar — ANB investment outgoing</span><span class="flow-amt v-red">10,000</span></div>
-  <div class="notable-row"><span class="n-label">15 Mar — Abyan extra top-up</span><span class="flow-amt v-red">10,000</span></div>
-  <div class="notable-row"><span class="n-label">17 Mar — Luxury gold & jewelry</span><span class="flow-amt v-red">10,000</span></div>
-  <div class="notable-row"><span class="n-label">24 Mar — Leejam gym membership</span><span class="flow-amt v-amber">2,189</span></div>
-  <div class="notable-row"><span class="n-label">27–27 Mar — IKEA (furniture)</span><span class="flow-amt v-amber">1,657</span></div>
-  <div class="notable-row"><span class="n-label">11 Apr — Ecole Francaise school fees</span><span class="flow-amt v-amber">1,150</span></div>
-  <div class="notable-row"><span class="n-label">Jan — Smasco maintenance</span><span class="flow-amt v-amber">2,127</span></div>
-  <div class="notable-row"><span class="n-label">Jan + Mar — Traffic violations (SADAD)</span><span class="flow-amt v-amber">863</span></div>
-  <div class="notable-row"><span class="n-label">Mar — Petromin Express (car service)</span><span class="flow-amt v-amber">1,320</span></div>
+  <div class="card-t">3 channels used Jan–Mar 2026 — total 13,154 SAR (~4,385/mo avg)</div>
+  <div class="fr"><span class="fl">UrPay top-up<span class="fs">Jan · AlRajhi · batch transfer</span></span><span class="fa">5,000</span></div>
+  <div class="fr"><span class="fl">Money exchange / FX<span class="fs">Mar · AlRajhi · ~$1,508 equivalent</span></span><span class="fa">5,654</span></div>
+  <div class="fr"><span class="fl">Mobily Pay<span class="fs">Mar · AlRajhi</span></span><span class="fa">2,500</span></div>
+  <div class="fr divider"><span class="fl" style="font-weight:500">YTD total (3 months)</span><span class="fa">13,154</span></div>
+  <div style="margin-top:8px;font-size:11px;color:var(--text3)">Stated target: ~$715/mo (~2,680 SAR). Jan was a larger batch payment. Consider consolidating to a single channel monthly for cleaner tracking and potentially better FX rates.</div>
+</div>
+
+<!-- Kids & family -->
+<div class="sec">Kids & family costs — decoded</div>
+<div class="three">
+  <div class="card">
+    <div class="card-t">School fees YTD</div>
+    <div class="fr"><span class="fl">Maria — pre-registration<span class="fs">AlRajhi Mar · next school year</span></span><span class="fa">5,000</span></div>
+    <div class="fr"><span class="fl">Maria — term fees<span class="fs">Visa Apr · Ecole Francaise</span></span><span class="fa">1,150</span></div>
+    <div class="fr"><span class="fl">William — afterschool activity<span class="fs">AlRajhi Feb · cancelled · refund due</span></span><span class="fa va">2,300</span></div>
+    <div class="fr divider"><span class="fl" style="font-weight:500">Net (excl. refund due)</span><span class="fa">6,150</span></div>
+  </div>
+  <div class="card">
+    <div class="card-t">Activities YTD</div>
+    <div class="fr"><span class="fl">Leejam gym membership<span class="fs">Visa Apr · family</span></span><span class="fa">2,189</span></div>
+    <div class="fr"><span class="fl">Star Ryan (kids)<span class="fs">AlRajhi Mar</span></span><span class="fa">1,450</span></div>
+    <div class="fr"><span class="fl">Bodymasters — Farah<span class="fs">Visa Mar</span></span><span class="fa">999</span></div>
+    <div class="fr"><span class="fl">Basketball academy<span class="fs">AlRajhi Mar · cancelled · refunded</span></span><span class="fa va">2,250</span></div>
+    <div class="fr divider"><span class="fl" style="font-weight:500">Net (excl. refund)</span><span class="fa">4,638</span></div>
+  </div>
+  <div class="card">
+    <div class="card-t">Household staff YTD</div>
+    <div class="fr"><span class="fl">Driver — Mohamad Ahmad<span class="fs">1,000 × 4 months</span></span><span class="fa">4,000</span></div>
+    <div class="fr"><span class="fl">Helper — Maharah + STC<span class="fs">~1,800–2,000/mo × 4</span></span><span class="fa">~7,600</span></div>
+    <div class="fr divider"><span class="fl" style="font-weight:500">Total staff YTD</span><span class="fa">~11,600</span></div>
+  </div>
+</div>
+
+<!-- Notable one-offs -->
+<div class="sec">Notable & irregular expenses</div>
+<div class="card">
+  <div class="fr"><span class="fl">Mar 17 — Luxury gold & jewelry (Visa)<span class="fs">One-off purchase</span></span><span class="fa vr">10,000</span></div>
+  <div class="fr"><span class="fl">Apr 27 — IKEA furniture (Visa)<span class="fs">4 transactions</span></span><span class="fa va">1,657</span></div>
+  <div class="fr"><span class="fl">Apr 24 — Leejam gym membership (Visa)</span><span class="fa va">2,189</span></div>
+  <div class="fr"><span class="fl">Apr 11 — Ecole Francaise (Visa)</span><span class="fa va">1,150</span></div>
+  <div class="fr"><span class="fl">Mar — Petromin Express car service (Visa)</span><span class="fa va">1,320</span></div>
+  <div class="fr"><span class="fl">Mar — Maria school pre-reg (AlRajhi)</span><span class="fa va">5,000</span></div>
+  <div class="fr"><span class="fl">Jan — Smasco home maintenance (Visa)</span><span class="fa va">2,127</span></div>
+  <div class="fr"><span class="fl">Jan — SADAD utility bill (AlRajhi)</span><span class="fa va">4,000</span></div>
+  <div class="fr"><span class="fl">Jan + Mar — Traffic violations (SADAD)</span><span class="fa va">863</span></div>
+  <div class="fr"><span class="fl">Feb — NOON electronics/home (Visa)<span class="fs">Spike month</span></span><span class="fa va">1,231</span></div>
+</div>
+
+<!-- Farah card -->
+<div class="sec">Farah supplementary card — embedded spend (Visa)</div>
+<div class="card">
+  <div class="card-t">Estimated monthly spend on Farah's card (XXXXXXXXXX191843)</div>
+  <div class="fr"><span class="fl">Groceries (Keemart, Tamimi, Al-Othaim)</span><span class="fa">~1,800</span></div>
+  <div class="fr"><span class="fl">Fashion (Zara, Namshi, Brands For Less)</span><span class="fa">~900</span></div>
+  <div class="fr"><span class="fl">Food delivery & restaurants</span><span class="fa">~600</span></div>
+  <div class="fr"><span class="fl">Amazon SA</span><span class="fa">~650</span></div>
+  <div class="fr"><span class="fl">Medical & pharmacy</span><span class="fa">~350</span></div>
+  <div class="fr"><span class="fl">Netflix + subscriptions</span><span class="fa">~50</span></div>
+  <div class="fr divider"><span class="fl" style="font-weight:500">Estimated total / mo</span><span class="fa vr">~4,350</span></div>
+  <div style="margin-top:8px;font-size:11px;color:var(--text3)">This spend is fully embedded in the main Visa bill — no separate budget currently assigned. Consider agreeing a monthly ceiling with Farah for visibility.</div>
 </div>
 
 <!-- Flags -->
-<div class="section-lbl">Flags & observations</div>
-<div class="alert alert-red">Apr Visa balance is 12,510 SAR due — jewelry (10K), IKEA, Leejam, and food delivery all hit in the same cycle. Highest single month of the period.</div>
-<div class="alert alert-red">Salary (40,013) alone does not cover fixed obligations (~22,300) + average Visa spend (~15,374). Monthly deficit of ~5–8K on normal months without drawing on savings or bonus.</div>
-<div class="alert alert-amber">115K+ was moved to AlRajhi self-account in March post-bonus — destination and purpose unconfirmed. Needs tagging: investment? real estate? liquidity?</div>
-<div class="alert alert-amber">Farah's supplementary card (Visa) runs an estimated 4,000–6,000 SAR/month — groceries, fashion, food delivery, medical — fully embedded in the Visa statement with no separate budget.</div>
-<div class="alert alert-green">Investment discipline is solid: 5K/month Abyan + 13K/month RSA savings + ad-hoc Sukuk. Bonus deployed into investments within 3 days of receipt.</div>
-<div class="alert alert-green">No credit card interest charges detected across all statements. Full balance paid each cycle — card used correctly as a cash-flow tool.</div>
+<div class="sec">Flags & observations</div>
+<div class="alert ar"><b>Apr Visa bill — 12,510 SAR due 10 May.</b> Jewelry 10K + IKEA + Leejam + heavy food delivery all landed in the same cycle. Highest month of the period.</div>
+<div class="alert ar"><b>Food delivery is rising fast</b> — HungerStation + Keeta went from 310 SAR in Jan to 1,645 SAR in Apr. At this rate it will exceed groceries spend within 2 months.</div>
+<div class="alert aa"><b>Two refunds to verify:</b> William's afterschool basketball (2,300 · AlRajhi Feb) and basketball academy (2,250 · AlRajhi Mar) — total 4,550 SAR. Confirm credits received.</div>
+<div class="alert aa"><b>Lebanon transfers across 3 channels</b> — UrPay, FX exchange, Mobily Pay. Consolidate to one channel for cleaner tracking and better FX rates.</div>
+<div class="alert aa"><b>Farah's card (~4,350/mo)</b> has no assigned budget. It's the second-largest spending source after direct Visa transactions and is currently invisible as a standalone figure.</div>
+<div class="alert ag"><b>No credit card interest</b> across all statements. Full balance cleared every cycle on both SAB Visa and AlRajhi card.</div>
+<div class="alert ag"><b>Household staff costs are predictable</b> — driver (1,000) + helper (~1,800) = 2,800/mo fixed, easy to budget for.</div>
 
-<footer>
-  Generated from SAB bank statements · Jan – Apr 2026 · Confidential — family use only
-</footer>
+<footer>SAB + AlRajhi statements · Jan – Apr 2026 · Expenses only · Confidential — family use only · v3 · Last updated 26 Apr 2026</footer>
 </div>
 
 <script>
-const CATS = [
-  {
-    name:'Food & dining', color:'#D85A30',
-    months:[2800,3600,4200,4800],
-    insight:'Delivery apps (HungerStation, Keeta, Jahez) account for roughly <b>55%</b> of food spend. Dining out makes up <b>35%</b>. Cafes ~<b>10%</b>. Monthly trend is rising — Apr is 71% above Jan.',
-    groups:[
-      { label:'Delivery apps', color:'#D85A30', merchants:[
-        {n:'HungerStation',jan:310,feb:1010,mar:500,apr:760,times:15},
-        {n:'Keeta',jan:0,feb:144,mar:300,apr:885,times:10},
-        {n:'Jahez',jan:87,feb:0,mar:0,apr:0,times:1},
-        {n:'Shawarma House',jan:0,feb:122,mar:16,apr:73,times:3},
-      ]},
-      { label:'Restaurants & dining out', color:'#993C1D', merchants:[
-        {n:'Saruja Restaurant',jan:318,feb:0,mar:0,apr:0,times:2},
-        {n:'Burj Al Hamam',jan:0,feb:566,mar:0,apr:0,times:1},
-        {n:'Break Fast Hour',jan:365,feb:0,mar:0,apr:0,times:1},
-        {n:'Yammak',jan:168,feb:149,mar:0,apr:0,times:2},
-        {n:'Al Romansiah',jan:0,feb:83,mar:0,apr:0,times:1},
-        {n:'q-Dutch Brunch',jan:0,feb:0,mar:174,apr:0,times:1},
-        {n:'q-SH & Piatto View',jan:0,feb:0,mar:0,apr:385,times:1},
-        {n:'Sweets Alhallab',jan:0,feb:0,mar:0,apr:148,times:1},
-        {n:'Saroja Restaurants',jan:0,feb:0,mar:297,apr:0,times:1},
-        {n:'Golden Zo',jan:354,feb:0,mar:0,apr:289,times:2},
-        {n:'Tabolah Chicken',jan:0,feb:0,mar:91,apr:0,times:1},
-      ]},
-      { label:'Cafes & quick bites', color:'#F0997B', merchants:[
-        {n:'Beehive Cafe',jan:22,feb:12,mar:10,apr:66,times:8},
-        {n:'Dunkin',jan:10,feb:40,mar:0,apr:0,times:2},
-        {n:'McDonalds',jan:16,feb:73,mar:0,apr:0,times:2},
-        {n:'Starbucks',jan:0,feb:0,mar:0,apr:86,times:2},
-        {n:'Miraqe Gateway Coffee',jan:11,feb:24,mar:0,apr:0,times:2},
-        {n:'Calo.app (meal plan)',jan:0,feb:0,mar:976,apr:0,times:1},
-        {n:'Mama Noura',jan:0,feb:0,mar:94,apr:0,times:1},
-        {n:'Java Time',jan:0,feb:0,mar:76,apr:0,times:1},
-        {n:'Nabta Tea Cafe',jan:0,feb:15,mar:0,apr:0,times:1},
-      ]},
-    ]
-  },
-  {
-    name:'Groceries & supermarkets', color:'#BA7517',
-    months:[2200,2800,3200,2400],
-    insight:'Tamimi and Keemart are the anchor stores covering ~<b>65%</b> of grocery spend. Farah\'s card drives significant volume — especially Keemart (18 visits in 4 months).',
-    groups:[
-      { label:'Supermarkets — Walid card', color:'#BA7517', merchants:[
-        {n:'Tamimi Markets',jan:169,feb:228,mar:440,apr:567,times:8},
-        {n:'Carrefour',jan:585,feb:61,mar:0,apr:0,times:2},
-        {n:'Al-Othaim Markets',jan:82,feb:86,mar:0,apr:23,times:5},
-        {n:'Panda Retail',jan:0,feb:0,mar:598,apr:0,times:1},
-        {n:'Alsadhan Co',jan:11,feb:21,mar:35,apr:35,times:6},
-        {n:'Haqel Waraq Enab',jan:75,feb:76,mar:0,apr:38,times:5},
-        {n:'Danube',jan:0,feb:244,mar:0,apr:0,times:1},
-        {n:'Trolley',jan:0,feb:0,mar:470,apr:47,times:2},
-        {n:'Rawabi Alfakiha (fruits)',jan:0,feb:130,mar:0,apr:0,times:1},
-      ]},
-      { label:'Supermarkets — Farah card', color:'#EF9F27', merchants:[
-        {n:'Keemart',jan:358,feb:347,mar:400,apr:215,times:18},
-        {n:'Tamimi S163/S159',jan:169,feb:228,mar:122,apr:0,times:5},
-        {n:'Al-Othaim (Farah)',jan:23,feb:63,mar:85,apr:18,times:5},
-        {n:'Island Branch Co',jan:0,feb:262,mar:179,apr:44,times:4},
-        {n:'Bajh Trading Est',jan:56,feb:99,mar:198,apr:223,times:7},
-        {n:'Lebanese House Butcher',jan:0,feb:0,mar:20,apr:0,times:1},
-      ]},
-    ]
-  },
-  {
-    name:'Household & maintenance', color:'#185FA5',
-    months:[4200,1900,1800,3800],
-    insight:'Jan spike = Smasco (2,127) + SADAD utility (1,975). Apr spike = IKEA (1,657) + Leejam membership (2,189). These are lumpy — you need an irregular expense fund, not a monthly budget.',
-    groups:[
-      { label:'Home maintenance & services', color:'#185FA5', merchants:[
-        {n:'Smasco (maintenance)',jan:2127,feb:0,mar:0,apr:0,times:1},
-        {n:'Petromin Express (car service)',jan:0,feb:0,mar:1320,apr:0,times:1},
-        {n:'IKEA',jan:0,feb:0,mar:0,apr:1657,times:4},
-        {n:'Roanza Est',jan:0,feb:90,mar:0,apr:0,times:1},
-        {n:'Theriskal Alsaudia',jan:0,feb:200,mar:0,apr:0,times:1},
-        {n:'Children AlWorood',jan:0,feb:0,mar:300,apr:0,times:1},
-        {n:'Valora Homes',jan:0,feb:0,mar:35,apr:0,times:1},
-      ]},
-      { label:'Utilities & bills', color:'#378ADD', merchants:[
-        {n:'Saudi Electricity (SEC)',jan:86,feb:268,mar:166,apr:0,times:4},
-        {n:'SADAD Utility Bill',jan:1975,feb:0,mar:0,apr:0,times:1},
-        {n:'Al Manhal Water',jan:0,feb:260,mar:0,apr:0,times:1},
-      ]},
-      { label:'Sports, fitness & events', color:'#85B7EB', merchants:[
-        {n:'Leejam Sport Company',jan:0,feb:0,mar:0,apr:2189,times:1},
-        {n:'Bodymasters (Farah)',jan:0,feb:0,mar:999,apr:0,times:1},
-        {n:'Goal Inte (sports)',jan:173,feb:0,mar:0,apr:0,times:2},
-        {n:'Webook (events/tickets)',jan:0,feb:210,mar:200,apr:0,times:2},
-        {n:'Diriyah Gate',jan:0,feb:30,mar:0,apr:0,times:1},
-      ]},
-    ]
-  },
-  {
-    name:'Lifestyle, fashion & gifts', color:'#534AB7',
-    months:[1100,2700,2500,4100],
-    insight:'The 10,000 SAR jewelry purchase in Mar distorts the category. Strip that out and the run rate is ~1,100–2,700/month. Farah\'s card drives the majority of fashion spend (Zara, Namshi, Brands For Less).',
-    groups:[
-      { label:'Fashion & clothing', color:'#534AB7', merchants:[
-        {n:'Zara',jan:0,feb:769,mar:605,apr:159,times:5},
-        {n:'Namshi',jan:0,feb:466,mar:396,apr:0,times:3},
-        {n:'Brands For Less',jan:0,feb:0,mar:958,apr:0,times:1},
-        {n:'Centrepoint',jan:0,feb:283,mar:0,apr:0,times:1},
-        {n:'Sun & Sand Sports',jan:0,feb:0,mar:149,apr:0,times:1},
-        {n:'Mamas & Papas',jan:0,feb:275,mar:0,apr:0,times:1},
-      ]},
-      { label:'Jewelry & luxury', color:'#7F77DD', merchants:[
-        {n:'Luxury gold & jewelry',jan:0,feb:0,mar:10000,apr:0,times:1},
-        {n:'ALHUSSAIN Top Up',jan:0,feb:487,mar:1102,apr:0,times:2},
-      ]},
-      { label:'Personal care & grooming', color:'#AFA9EC', merchants:[
-        {n:'Snips Salon',jan:115,feb:165,mar:115,apr:115,times:4},
-        {n:'Purerena',jan:420,feb:0,mar:0,apr:0,times:1},
-        {n:'www.alsaifgallery.com',jan:0,feb:538,mar:0,apr:0,times:1},
-        {n:'Orange Bed Bath',jan:0,feb:29,mar:0,apr:0,times:1},
-      ]},
-      { label:'Gifts, kids & school', color:'#CECBF6', merchants:[
-        {n:'Ewan Co (gifts)',jan:140,feb:0,mar:0,apr:0,times:1},
-        {n:'Al Husian Toys',jan:0,feb:0,mar:80,apr:0,times:1},
-        {n:'Rock Star Intl',jan:0,feb:0,mar:188,apr:0,times:1},
-        {n:'Ecole Francaise (school fees)',jan:0,feb:0,mar:0,apr:1150,times:1},
-        {n:'Soham Al Farah Est',jan:35,feb:0,mar:0,apr:20,times:2},
-      ]},
-    ]
-  },
-  {
-    name:'Online shopping', color:'#3B6D11',
-    months:[950,2200,1000,1400],
-    insight:'Amazon SA is the dominant channel across both cards. Noon spikes occasionally (electronics/home). iHerb and AliExpress are international with FX fees added.',
-    groups:[
-      { label:'Amazon SA (both cards)', color:'#3B6D11', merchants:[
-        {n:'Amazon SA (Farah card)',jan:668,feb:808,mar:540,apr:575,times:16},
-        {n:'Amazon SA (Walid card)',jan:58,feb:0,mar:57,apr:0,times:4},
-        {n:'Amazon Now (instant delivery)',jan:22,feb:0,mar:0,apr:0,times:1},
-        {n:'Amazon Prime subscription',jan:16,feb:16,mar:16,apr:16,times:4},
-      ]},
-      { label:'Noon & local platforms', color:'#639922', merchants:[
-        {n:'Noon (Farah card)',jan:157,feb:498,mar:0,apr:0,times:3},
-        {n:'Noon (Walid card)',jan:0,feb:1231,mar:0,apr:0,times:2},
-        {n:'www.wddk.sa',jan:250,feb:0,mar:0,apr:0,times:1},
-        {n:'Jarir Bookstore',jan:0,feb:2,mar:0,apr:0,times:1},
-      ]},
-      { label:'International (FX applies)', color:'#97C459', merchants:[
-        {n:'MUMZWORLD (baby)',jan:0,feb:676,mar:0,apr:0,times:1},
-        {n:'iHerb (supplements)',jan:0,feb:276,mar:0,apr:0,times:1},
-        {n:'AliExpress',jan:0,feb:0,mar:234,apr:0,times:1},
-        {n:'nahdionline.com',jan:0,feb:75,mar:0,apr:0,times:1},
-      ]},
-    ]
-  }
+const CATS=[
+  {name:'Food & dining',color:'#D85A30',months:[2800,3600,4200,4800],
+   insight:'Delivery apps (HungerStation, Keeta, Jahez) account for roughly <b>55%</b> of food spend. Dining out ~<b>35%</b>. Cafes ~<b>10%</b>. Apr is 71% above Jan — a clear rising trend that needs a monthly cap.',
+   groups:[
+    {label:'Delivery apps',color:'#D85A30',merchants:[
+      {n:'HungerStation',jan:310,feb:1010,mar:500,apr:760,t:15},
+      {n:'Keeta',jan:0,feb:144,mar:300,apr:885,t:10},
+      {n:'Shawarma House',jan:0,feb:122,mar:16,apr:73,t:3},
+      {n:'Jahez',jan:87,feb:0,mar:0,apr:0,t:1},
+    ]},
+    {label:'Restaurants & dining out',color:'#993C1D',merchants:[
+      {n:'Burj Al Hamam',jan:0,feb:566,mar:0,apr:0,t:1},
+      {n:'Break Fast Hour',jan:365,feb:0,mar:0,apr:0,t:1},
+      {n:'Saruja / Saroja Restaurant',jan:318,feb:0,mar:297,apr:0,t:3},
+      {n:'q-SH & Piatto View',jan:0,feb:0,mar:0,apr:385,t:1},
+      {n:'Golden Zo',jan:354,feb:0,mar:0,apr:289,t:2},
+      {n:'Yammak',jan:168,feb:149,mar:0,apr:0,t:2},
+      {n:'Al Romansiah',jan:0,feb:83,mar:0,apr:0,t:1},
+      {n:'q-Dutch Brunch',jan:0,feb:0,mar:174,apr:0,t:1},
+      {n:'Sweets Alhallab',jan:0,feb:0,mar:0,apr:148,t:1},
+      {n:'Tabolah Chicken',jan:0,feb:0,mar:91,apr:0,t:1},
+    ]},
+    {label:'Cafes & quick bites',color:'#F0997B',merchants:[
+      {n:'Calo.app (meal plan)',jan:0,feb:0,mar:976,apr:0,t:1},
+      {n:'Starbucks',jan:0,feb:0,mar:0,apr:86,t:2},
+      {n:'McDonalds',jan:16,feb:73,mar:0,apr:0,t:2},
+      {n:'Beehive Cafe',jan:22,feb:12,mar:10,apr:66,t:8},
+      {n:'Dunkin',jan:10,feb:40,mar:0,apr:0,t:2},
+      {n:'Mama Noura',jan:0,feb:0,mar:94,apr:0,t:1},
+      {n:'Java Time',jan:0,feb:0,mar:76,apr:0,t:1},
+      {n:'Miraqe Gateway Coffee',jan:11,feb:24,mar:0,apr:0,t:2},
+      {n:'Nabta Tea Cafe',jan:0,feb:15,mar:0,apr:0,t:1},
+    ]},
+  ]},
+  {name:'Groceries & supermarkets',color:'#BA7517',months:[2200,2800,3200,2400],
+   insight:'Tamimi and Keemart are anchor stores at ~<b>65%</b> of grocery spend. Farah\'s card drives Keemart — <b>18 visits in 4 months</b>. Combined household grocery spend is running ~2,600/mo.',
+   groups:[
+    {label:'Supermarkets — Walid card',color:'#BA7517',merchants:[
+      {n:'Tamimi Markets',jan:169,feb:228,mar:440,apr:567,t:8},
+      {n:'Carrefour',jan:585,feb:61,mar:0,apr:0,t:2},
+      {n:'Panda Retail',jan:0,feb:0,mar:598,apr:0,t:1},
+      {n:'Danube',jan:0,feb:244,mar:0,apr:0,t:1},
+      {n:'Trolley',jan:0,feb:0,mar:470,apr:47,t:2},
+      {n:'Al-Othaim Markets',jan:82,feb:86,mar:0,apr:23,t:5},
+      {n:'Alsadhan Co',jan:11,feb:21,mar:35,apr:35,t:6},
+      {n:'Haqel Waraq Enab',jan:75,feb:76,mar:0,apr:38,t:5},
+      {n:'Rawabi Alfakiha (fruits)',jan:0,feb:130,mar:0,apr:0,t:1},
+    ]},
+    {label:'Supermarkets — Farah card',color:'#EF9F27',merchants:[
+      {n:'Keemart',jan:358,feb:347,mar:400,apr:215,t:18},
+      {n:'Tamimi S163/S159',jan:169,feb:228,mar:122,apr:0,t:5},
+      {n:'Island Branch Co',jan:0,feb:262,mar:179,apr:44,t:4},
+      {n:'Bajh Trading Est',jan:56,feb:99,mar:198,apr:223,t:7},
+      {n:'Al-Othaim (Farah)',jan:23,feb:63,mar:85,apr:18,t:5},
+      {n:'Lebanese House Butcher',jan:0,feb:0,mar:20,apr:0,t:1},
+    ]},
+  ]},
+  {name:'Household & maintenance',color:'#185FA5',months:[4200,1900,1800,3800],
+   insight:'Jan spike = Smasco (2,127) + SADAD utility (1,975). Apr spike = IKEA (1,657) + Leejam (2,189). These are lumpy irregulars — set aside a <b>2,000/mo buffer</b> to absorb them without impacting the Visa limit.',
+   groups:[
+    {label:'Home maintenance & one-offs',color:'#185FA5',merchants:[
+      {n:'Leejam Sport membership',jan:0,feb:0,mar:0,apr:2189,t:1},
+      {n:'Smasco (home maintenance)',jan:2127,feb:0,mar:0,apr:0,t:1},
+      {n:'IKEA (furniture)',jan:0,feb:0,mar:0,apr:1657,t:4},
+      {n:'Petromin Express (car service)',jan:0,feb:0,mar:1320,apr:0,t:1},
+      {n:'Bodymasters — Farah',jan:0,feb:0,mar:999,apr:0,t:1},
+      {n:'Children AlWorood distr.',jan:0,feb:0,mar:300,apr:0,t:1},
+      {n:'Roanza / Theriskal (home)',jan:0,feb:290,mar:35,apr:0,t:2},
+    ]},
+    {label:'Utilities & bills',color:'#378ADD',merchants:[
+      {n:'SADAD Utility Bill (Jan)',jan:1975,feb:0,mar:0,apr:0,t:1},
+      {n:'Saudi Electricity (SEC)',jan:86,feb:268,mar:166,apr:0,t:4},
+      {n:'Al Manhal Water',jan:0,feb:260,mar:0,apr:0,t:1},
+    ]},
+    {label:'Events & entertainment',color:'#85B7EB',merchants:[
+      {n:'Webook (events/tickets)',jan:0,feb:210,mar:200,apr:0,t:2},
+      {n:'Goal Inte (sports)',jan:173,feb:0,mar:0,apr:0,t:2},
+      {n:'Diriyah Gate',jan:0,feb:30,mar:0,apr:0,t:1},
+    ]},
+  ]},
+  {name:'Lifestyle, fashion & gifts',color:'#534AB7',months:[1100,2700,2500,4100],
+   insight:'Strip out the 10,000 SAR jewelry purchase (Mar) and the run rate is <b>1,100–2,700/mo</b>. Farah\'s card drives fashion — Zara, Namshi, Brands For Less. Snips Salon is a consistent <b>115 SAR/mo</b> for Walid.',
+   groups:[
+    {label:'Fashion & clothing',color:'#534AB7',merchants:[
+      {n:'Zara',jan:0,feb:769,mar:605,apr:159,t:5},
+      {n:'Namshi',jan:0,feb:466,mar:396,apr:0,t:3},
+      {n:'Brands For Less',jan:0,feb:0,mar:958,apr:0,t:1},
+      {n:'Centrepoint',jan:0,feb:283,mar:0,apr:0,t:1},
+      {n:'Mamas & Papas',jan:0,feb:275,mar:0,apr:0,t:1},
+      {n:'Sun & Sand Sports',jan:0,feb:0,mar:149,apr:0,t:1},
+    ]},
+    {label:'Jewelry & luxury',color:'#7F77DD',merchants:[
+      {n:'Luxury gold & jewelry',jan:0,feb:0,mar:10000,apr:0,t:1},
+      {n:'ALHUSSAIN Top Up',jan:0,feb:487,mar:1102,apr:0,t:2},
+    ]},
+    {label:'Personal care & grooming',color:'#AFA9EC',merchants:[
+      {n:'Snips Salon',jan:115,feb:165,mar:115,apr:115,t:4},
+      {n:'Purerena',jan:420,feb:0,mar:0,apr:0,t:1},
+      {n:'www.alsaifgallery.com',jan:0,feb:538,mar:0,apr:0,t:1},
+      {n:'Orange Bed Bath',jan:0,feb:29,mar:0,apr:0,t:1},
+    ]},
+    {label:'Kids, gifts & school',color:'#CECBF6',merchants:[
+      {n:'Ecole Francaise (Visa · Apr)',jan:0,feb:0,mar:0,apr:1150,t:1},
+      {n:'Ewan Co (gifts)',jan:140,feb:0,mar:0,apr:0,t:1},
+      {n:'Rock Star Intl',jan:0,feb:0,mar:188,apr:0,t:1},
+      {n:'Al Husian Toys',jan:0,feb:0,mar:80,apr:0,t:1},
+      {n:'Soham Al Farah Est',jan:35,feb:0,mar:0,apr:20,t:2},
+    ]},
+  ]},
+  {name:'Online shopping',color:'#3B6D11',months:[950,2200,1000,1400],
+   insight:'Amazon SA dominates both cards — Farah\'s card accounts for ~<b>70%</b> of Amazon volume. Noon spikes occasionally (electronics/home). MUMZWORLD, iHerb, AliExpress carry FX conversion fees on top of the purchase price.',
+   groups:[
+    {label:'Amazon SA — both cards',color:'#3B6D11',merchants:[
+      {n:'Amazon SA (Farah card)',jan:668,feb:808,mar:540,apr:575,t:16},
+      {n:'Amazon SA (Walid card)',jan:58,feb:0,mar:57,apr:0,t:4},
+      {n:'Amazon Now',jan:22,feb:0,mar:0,apr:0,t:1},
+      {n:'Amazon Prime subscription',jan:16,feb:16,mar:16,apr:16,t:4},
+    ]},
+    {label:'Noon & local platforms',color:'#639922',merchants:[
+      {n:'Noon (Walid card)',jan:0,feb:1231,mar:0,apr:0,t:2},
+      {n:'Noon (Farah card)',jan:157,feb:498,mar:0,apr:0,t:3},
+      {n:'www.wddk.sa',jan:250,feb:0,mar:0,apr:0,t:1},
+      {n:'Jarir Bookstore',jan:0,feb:2,mar:0,apr:0,t:1},
+    ]},
+    {label:'International (FX fees apply)',color:'#97C459',merchants:[
+      {n:'MUMZWORLD (baby)',jan:0,feb:676,mar:0,apr:0,t:1},
+      {n:'iHerb (supplements)',jan:0,feb:276,mar:0,apr:0,t:1},
+      {n:'AliExpress',jan:0,feb:0,mar:234,apr:0,t:1},
+      {n:'nahdionline.com',jan:0,feb:75,mar:0,apr:0,t:1},
+    ]},
+  ]},
 ];
 
-let catChart = null;
+const MIX=[
+  {label:'Food & dining',color:'#D85A30',avg:3850},
+  {label:'Groceries',color:'#BA7517',avg:2650},
+  {label:'Household',color:'#185FA5',avg:2975},
+  {label:'Lifestyle & fashion',color:'#534AB7',avg:2625},
+  {label:'Online shopping',color:'#3B6D11',avg:1388},
+  {label:'Telecom',color:'#0F6E56',avg:980},
+  {label:'Transport & fuel',color:'#888780',avg:860},
+  {label:'Health & pharmacy',color:'#D4537E',avg:620},
+  {label:'Utilities',color:'#5DCAA5',avg:350},
+];
 
-function show(idx, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+let catChart=null;
+
+function show(idx,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   btn.classList.add('on');
-  const c = CATS[idx];
-  const total = c.months.reduce((s,v)=>s+v,0);
-  const avg = Math.round(total/4);
-  const labels = ['Jan','Feb','Mar','Apr'];
-  const deltas = c.months.map((v,i)=> i===0 ? null : Math.round((v-c.months[i-1])/c.months[i-1]*100));
-
-  let html = `<div class="cat-header"><div class="cat-dot" style="background:${c.color}"></div><div class="cat-name">${c.name}</div><div><span class="cat-total">${total.toLocaleString()} SAR</span><span class="cat-avg">avg ${avg.toLocaleString()}/mo</span></div></div>`;
-  html += `<div class="month-grid">`;
+  const c=CATS[idx];
+  const total=c.months.reduce((s,v)=>s+v,0);
+  const avg=Math.round(total/4);
+  const labels=['Jan','Feb','Mar','Apr'];
+  const deltas=c.months.map((v,i)=>i===0?null:Math.round((v-c.months[i-1])/c.months[i-1]*100));
+  let html=`<div class="cat-hd"><div class="cdot" style="background:${c.color}"></div><div class="cname">${c.name}</div><div><span style="font-size:15px;font-weight:500">${total.toLocaleString()} SAR</span> <span style="font-size:11px;color:var(--text3)">avg ${avg.toLocaleString()}/mo</span></div></div>`;
+  html+=`<div class="mo-grid">`;
   labels.forEach((l,i)=>{
-    const d = deltas[i];
-    let dHtml = d===null ? '' : `<div class="mo-delta ${d>15?'up':d<-10?'dn':'neu'}">${d>0?'+':''}${d}% vs prev</div>`;
-    html += `<div class="mo-card"><div class="mo-lbl">${l}</div><div class="mo-val">${c.months[i].toLocaleString()}</div>${dHtml}</div>`;
+    const d=deltas[i];
+    const dh=d===null?'':`<div class="mo-d ${d>15?'up':d<-10?'dn':'neu'}">${d>0?'+':''}${d}% vs prev</div>`;
+    html+=`<div class="mo-card"><div class="mo-l">${l}</div><div class="mo-v">${c.months[i].toLocaleString()}</div>${dh}</div>`;
   });
-  html += `</div>`;
-  html += `<div class="chart-wrap" style="height:150px"><canvas id="cChart" role="img" aria-label="Monthly spend for ${c.name}">${labels.map((l,i)=>l+': '+c.months[i]).join(', ')}</canvas></div>`;
-
+  html+=`</div><div class="cw" style="height:150px"><canvas id="cChart" role="img" aria-label="${c.name} monthly">${labels.map((l,i)=>l+':'+c.months[i]).join(', ')}</canvas></div>`;
   c.groups.forEach(g=>{
-    const sorted = [...g.merchants].sort((a,b)=>(b.jan+b.feb+b.mar+b.apr)-(a.jan+a.feb+a.mar+a.apr));
-    const gTotal = sorted.reduce((s,m)=>s+m.jan+m.feb+m.mar+m.apr,0);
-    const maxAmt = sorted[0] ? Math.max(1,sorted[0].jan+sorted[0].feb+sorted[0].mar+sorted[0].apr) : 1;
-    html += `<div class="sub-group"><div class="sg-title">${g.label} — ${gTotal.toLocaleString()} SAR</div>`;
+    const sorted=[...g.merchants].sort((a,b)=>(b.jan+b.feb+b.mar+b.apr)-(a.jan+a.feb+a.mar+a.apr));
+    const gTotal=sorted.reduce((s,m)=>s+m.jan+m.feb+m.mar+m.apr,0);
+    const mx=Math.max(1,sorted[0]?sorted[0].jan+sorted[0].feb+sorted[0].mar+sorted[0].apr:1);
+    html+=`<div class="sg"><div class="sg-t"><span>${g.label}</span><span>${gTotal.toLocaleString()} SAR</span></div>`;
     sorted.forEach(m=>{
-      const tot = m.jan+m.feb+m.mar+m.apr;
-      if(!tot) return;
-      const pct = Math.round(tot/maxAmt*100);
-      html += `<div class="merchant-row"><div class="m-name">${m.n}</div><div class="bar-bg"><div class="bar-f" style="width:${pct}%;background:${g.color}"></div></div><div class="m-count">${m.times}x</div><div class="m-amt">${tot.toLocaleString()}</div></div>`;
+      const tot=m.jan+m.feb+m.mar+m.apr;
+      if(!tot)return;
+      const pct=Math.round(tot/mx*100);
+      html+=`<div class="mr"><div class="mn">${m.n}</div><div class="bb"><div class="bf" style="width:${pct}%;background:${g.color}"></div></div><div class="mc">${m.t}x</div><div class="ma">${tot.toLocaleString()}</div></div>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   });
-  html += `<div class="insight">${c.insight}</div>`;
-  document.getElementById('panel').innerHTML = html;
-
-  if(catChart){ catChart.destroy(); catChart=null; }
-  catChart = new Chart(document.getElementById('cChart').getContext('2d'),{
-    type:'bar',
-    data:{ labels, datasets:[{ label:'SAR', data:c.months, backgroundColor:c.color+'99', borderColor:c.color, borderWidth:1.5, borderRadius:4 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{ticks:{callback:v=>v.toLocaleString(),font:{size:10}},grid:{color:'rgba(128,128,128,0.07)'}}, x:{ticks:{font:{size:11}},grid:{display:false}} } }
-  });
+  html+=`<div class="insight">${c.insight}</div>`;
+  document.getElementById('panel').innerHTML=html;
+  if(catChart){catChart.destroy();catChart=null;}
+  catChart=new Chart(document.getElementById('cChart').getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'SAR',data:c.months,backgroundColor:c.color+'99',borderColor:c.color,borderWidth:1.5,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>v.toLocaleString(),font:{size:10}},grid:{color:'rgba(128,128,128,0.07)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});
 }
 
 new Chart(document.getElementById('trendChart').getContext('2d'),{
   type:'bar',
-  data:{
-    labels:['Jan','Feb','Mar','Apr (partial)'],
-    datasets:[{ label:'Visa spend (SAR)', data:[12118,17255,16749,29731], backgroundColor:['#B5D4F4','#B5D4F4','#B5D4F4','#F0997B'], borderRadius:4 }]
-  },
-  options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{ticks:{callback:v=>v.toLocaleString(),font:{size:10}},grid:{color:'rgba(128,128,128,0.07)'}}, x:{ticks:{font:{size:11}},grid:{display:false}} } }
+  data:{labels:['Jan','Feb','Mar','Apr'],datasets:[{label:'Visa spend',data:[12118,17255,16749,29731],backgroundColor:['#B5D4F4','#B5D4F4','#B5D4F4','#F0997B'],borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>v.toLocaleString(),font:{size:10}},grid:{color:'rgba(128,128,128,0.07)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}
 });
 
-show(0, document.querySelector('.tab.on'));
+new Chart(document.getElementById('mixChart').getContext('2d'),{
+  type:'doughnut',
+  data:{labels:MIX.map(m=>m.label),datasets:[{data:MIX.map(m=>m.avg),backgroundColor:MIX.map(m=>m.color),borderWidth:1.5,borderColor:'#fff'}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed.toLocaleString()+' SAR/mo'}}}}
+});
+
+const total=MIX.reduce((s,m)=>s+m.avg,0);
+const ll=document.getElementById('legendList');
+ll.innerHTML=MIX.map(m=>{
+  const pct=Math.round(m.avg/total*100);
+  return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:12px"><span style="width:10px;height:10px;border-radius:2px;background:${m.color};flex-shrink:0;display:inline-block"></span><span style="flex:1;color:var(--text2)">${m.label}</span><span style="font-weight:500;min-width:54px;text-align:right">${m.avg.toLocaleString()}</span><span style="color:var(--text3);min-width:28px;text-align:right;font-size:11px">${pct}%</span></div>`;
+}).join('');
+
+show(0,document.querySelector('.tab.on'));
 </script>
 </body>
 </html>
