@@ -81,8 +81,8 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
 <header>
   <h1>Family expense dashboard — 2026</h1>
   <p>SAB Visa · AlRajhi · Jan – Jun 2026 · All amounts SAR · Expenses only</p>
-  <span class="badge bnew">v6 — Jun update</span>
-  <span class="badge bsrc">SAB + AlRajhi · 15 statements</span>
+  <span class="badge bnew">v11 — recat</span>
+  <span class="badge bsrc">SAB + AlRajhi · 17 statements</span>
 </header>
 
 <!-- ═══════════ FIXED COSTS ═══════════ -->
@@ -135,15 +135,15 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
   </div>
   <div class="sum-card">
     <div class="sum-lbl">April</div>
-    <div class="sum-val">41,455</div>
+    <div class="sum-val">41,822</div>
     <div class="sum-fix" style="color:var(--text3)">Fixed: 11,724</div>
-    <div class="sum-var" style="color:#D85A30">Variable: 29,731</div>
+    <div class="sum-var" style="color:#D85A30">Variable: 30,098</div>
   </div>
   <div class="sum-card">
     <div class="sum-lbl">May</div>
-    <div class="sum-val">35,198</div>
+    <div class="sum-val">42,641</div>
     <div class="sum-fix" style="color:var(--text3)">Fixed: 11,724</div>
-    <div class="sum-var" style="color:#D85A30">Variable: 23,474</div>
+    <div class="sum-var" style="color:#D85A30">Variable: 30,917</div>
   </div>
   <div class="sum-card">
     <div class="sum-lbl">June</div>
@@ -155,9 +155,24 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
 <div class="card">
   <div class="card-t">Total expenses by month — fixed vs variable (SAR)</div>
   <div class="cw" style="height:210px">
-    <canvas id="trendChart" role="img" aria-label="Stacked monthly expenses fixed and variable Jan to Jun 2026">Fixed 11724 each month. Variable: Jan 13118, Feb 17255, Mar 22749, Apr 29731, May 23474, Jun 27564</canvas>
+    <canvas id="trendChart" role="img" aria-label="Stacked monthly expenses fixed and variable Jan to Jun 2026">Fixed 11724 each month. Variable: Jan 13118, Feb 17255, Mar 22749, Apr 30098, May 30917, Jun 27564</canvas>
   </div>
 </div>
+
+<!-- ═══════════ CATEGORY YTD ═══════════ -->
+<div class="sec">Category spend — YTD (Jan – Jun 2026)</div>
+<div class="card">
+  <div class="card-t">Fixed commitments — 70,344 SAR YTD · 11,724/mo</div>
+  <div class="cw" style="height:260px"><canvas id="fixedCatChart" role="img" aria-label="Fixed commitments year to date"></canvas></div>
+  <div class="insight">Fixed costs are locked at <b>11,724 SAR/mo</b>. <b>Abyan (30,000)</b> and <b>Lebanon support (16,086)</b> are 65% of all fixed outflow — the two biggest levers if you ever need to cut.</div>
+</div>
+<div class="card">
+  <div class="card-t">Variable categories — 123,294 SAR YTD</div>
+  <div class="cw" style="height:340px"><canvas id="varCatChart" role="img" aria-label="Variable categories year to date"></canvas></div>
+  <div class="insight"><b>Lifestyle (21,235)</b> is now the largest variable category after moving kids’ stores, gym memberships (Leejam + Bodymasters) and one-off retail into it. <b>Kids &amp; school (18,050)</b> and <b>Vacation (17,795)</b> follow — both lumpy (school fees, the Egypt/Doha trips), not steady burn. <i>Helper salary and Lebanon transfers were removed from the variable side — both already sit in the fixed block, so they are no longer double-counted.</i></div>
+</div>
+<div class="hint" style="font-size:11px;color:var(--text3);margin:-0.25rem 0 0.75rem">Tap any bar above to list its transactions.</div>
+<div id="catDrill"></div>
 
 <!-- ═══════════ WEEKLY TRANSACTIONS ═══════════ -->
 <div class="sec">Variable transactions — weekly breakdown</div>
@@ -172,6 +187,7 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
   <div class="cat-pill-lg"><div class="cat-dot" style="background:#888780"></div>Transport</div>
   <div class="cat-pill-lg"><div class="cat-dot" style="background:#0F6E56"></div>Kids & school</div>
   <div class="cat-pill-lg"><div class="cat-dot" style="background:#5DCAA5"></div>Utilities</div>
+  <div class="cat-pill-lg"><div class="cat-dot" style="background:#0E8EA8"></div>Vacation</div>
 </div>
 
 <div class="mtabs">
@@ -196,19 +212,21 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
 <div class="alert ar">
 <b>June: 9,600 SAR school fees hit early</b> — Ecole Francaise charged 9,600 on 30 May (on the Jun statement). This contradicts the "annual one-off in August" assumption — Ecole now appears as a large mid-year charge plus the recurring ~1,150 term fees. Worth confirming the full-year payment schedule so August isn't double-budgeted.</div>
 <div class="alert ar">
-<b>Travel concentration</b> — Flynas 7,966 (Apr/May statement) and an Egypt trip (~1,965: Dolphina, EgyptAir Sharm, Super Eyes) in late May. Combined ~9,900 SAR of travel across two cycles, none of it in the fixed budget.</div>
+<b>Vacation is now its own category — and it is large</b> — May Vacation totals 15,409 SAR (Flynas flights 7,966 + Egypt travel-card spend 7,443: tour operator 6,148, Fawry/MODA/Top Art, restaurants). June adds 2,019 (EgyptAir Sharm, Dolphina, Super Eyes, duty free), plus 367 in April (Doha). One Egypt trip is split across May/June because charges landed on different statements. ~17,800 SAR of travel in one quarter, none of it in the fixed budget.</div>
+<div class="alert aa">
+<b>SAB Umlaty travel card now included</b> — merchant spend only (Apr 367, May 7,443). Card top-ups ("ACCOUNT LOADED") and the 8,424 SAR returned ("ACCOUNT UNLOADED") are funding movements, not expenses, so they are excluded to avoid double-counting against your main account.</div>
 <div class="alert aa">
 <b>MasterCard (7539370283) not in the monthly totals</b> — kept Visa-only for trend continuity since Jan–Mar MasterCard data isn't loaded. Notable MasterCard items: Apr — Claude.ai 882, Philip Morris 440, ChatGPT 88, annual fee 1,093; May — Mideasta (Jeddah) 3,773, Airalo eSIM 126. Flag if you want these folded into the headline figures going forward.</div>
 <div class="alert ag">
 <b>May driver fee paid (AlRajhi)</b> — the 1,000 SAR school-driver transfer (Mohamad Ahmad) is already inside the fixed 11,724/mo, so May is fully accounted for. No separate line added to avoid double-counting.</div>
-<footer>SAB + AlRajhi · Jan – Jun 2026 · Expenses only · Confidential — family use only · v6 · Updated 21 Jun 2026</footer>
+<footer>SAB + AlRajhi + Umlaty · Jan – Jun 2026 · Expenses only · Confidential — family use only · v11 · Updated 21 Jun 2026</footer>
 </div>
 
 <script>
 const CAT_COLORS={
   'Food & dining':'#D85A30','Groceries':'#BA7517','Household':'#185FA5',
   'Lifestyle':'#534AB7','Online':'#3B6D11','Health':'#D4537E',
-  'Transport':'#888780','Kids & school':'#0F6E56','Utilities':'#5DCAA5','One-off':'#A32D2D'
+  'Transport':'#888780','Kids & school':'#0F6E56','Utilities':'#5DCAA5','One-off':'#A32D2D','Vacation':'#0E8EA8'
 };
 
 const MONTHS={
@@ -217,7 +235,6 @@ const MONTHS={
     total:13118,
     weeks:[
       {label:'Week 1',range:'1 – 7 Jan',txs:[
-        {d:'01',m:'URPay top-up (Lebanon)',c:'Kids & school',a:200},
         {d:'05',m:'Fostaq Oziton Est (groceries)',c:'Groceries',a:66},
         {d:'05',m:'Zad AlJouri (groceries)',c:'Groceries',a:118},
       ]},
@@ -238,9 +255,9 @@ const MONTHS={
         {d:'16',m:'ALSADHAN CO',c:'Groceries',a:24},
         {d:'17',m:'MCDONALDS Shara Mall',c:'Food & dining',a:73},
         {d:'17',m:'Keemart',c:'Groceries',a:167},
-        {d:'17',m:'Goal Inte (sports)',c:'Household',a:170},
+        {d:'17',m:'Goal Inte (sports)',c:'Lifestyle',a:170},
         {d:'17',m:'SAHEL STATION fuel',c:'Transport',a:112},
-        {d:'17',m:'Goal Inte (sports)',c:'Household',a:3},
+        {d:'17',m:'Goal Inte (sports)',c:'Lifestyle',a:3},
         {d:'17',m:'Alfa Algharb Co',c:'Groceries',a:36},
         {d:'20',m:'Arabic Bakery',c:'Food & dining',a:38},
         {d:'21',m:'BAJH TRADING EST',c:'Groceries',a:181},
@@ -253,7 +270,7 @@ const MONTHS={
         {d:'22',m:'ROANZA EST',c:'Household',a:90},
         {d:'22',m:'Beehive Cafe',c:'Food & dining',a:9},
         {d:'23',m:'Burj Al Hamam restaurant',c:'Food & dining',a:566},
-        {d:'24',m:'Soham Al Farah Est',c:'Kids & school',a:35},
+        {d:'24',m:'Soham Al Farah Est',c:'Lifestyle',a:35},
         {d:'24',m:'Miraqe Gateway Coffee',c:'Food & dining',a:11},
         {d:'24',m:'BAJH TRADING EST',c:'Groceries',a:59},
         {d:'24',m:'GOLDEN ZO restaurant',c:'Food & dining',a:354},
@@ -300,15 +317,14 @@ const MONTHS={
         {d:'11',m:'LEBARA MOBILE',c:'Utilities',a:15},
         {d:'12',m:'NOON',c:'Online',a:481},
         {d:'12',m:'ToYou delivery',c:'Online',a:41},
-        {d:'13',m:'Webook (events)',c:'Household',a:210},
+        {d:'13',m:'Webook (events)',c:'Lifestyle',a:210},
         {d:'13',m:'Keeta',c:'Food & dining',a:144},
         {d:'13',m:'MUMZWORLD (baby)',c:'Online',a:676},
         {d:'14',m:'HungerStation',c:'Food & dining',a:374},
       ]},
       {label:'Week 3',range:'15 – 21 Feb',txs:[
-        {d:'15',m:'STC Bank top-up (helper salary)',c:'Household',a:1800},
         {d:'15',m:'Namshi',c:'Lifestyle',a:466},
-        {d:'15',m:'MAMAS & PAPAS',c:'Kids & school',a:275},
+        {d:'15',m:'MAMAS & PAPAS',c:'Lifestyle',a:275},
         {d:'15',m:'Arabic Bakery',c:'Food & dining',a:7},
         {d:'15',m:'Amazon SA',c:'Online',a:204},
         {d:'15',m:'NOON',c:'Online',a:157},
@@ -354,7 +370,6 @@ const MONTHS={
     weeks:[
       {label:'Week 1',range:'1 – 7 Mar',txs:[
         {d:'01',m:'NMC pharmacy',c:'Health',a:25},
-        {d:'02',m:'Mobily Pay (Lebanon transfer)',c:'Kids & school',a:2500},
         {d:'03',m:'HungerStation',c:'Food & dining',a:56},
         {d:'03',m:'SASCO fuel stations',c:'Transport',a:144},
         {d:'03',m:'Jawwy from STC',c:'Utilities',a:104},
@@ -363,10 +378,9 @@ const MONTHS={
         {d:'06',m:'STC postpaid',c:'Utilities',a:940},
         {d:'06',m:'S170 Tamimi Markets',c:'Groceries',a:440},
         {d:'07',m:'ALDREES fuel',c:'Transport',a:126},
-        {d:'07',m:'AL HUSIAN TOYS',c:'Kids & school',a:80},
+        {d:'07',m:'AL HUSIAN TOYS',c:'Lifestyle',a:80},
       ]},
       {label:'Week 2',range:'8 – 14 Mar',txs:[
-        {d:'08',m:'FX Money Exchange (Lebanon)',c:'Kids & school',a:5654},
         {d:'08',m:'Petromin Express car service',c:'Transport',a:1320},
         {d:'10',m:'Keeta',c:'Food & dining',a:209},
         {d:'10',m:'Namshi',c:'Lifestyle',a:396},
@@ -375,10 +389,9 @@ const MONTHS={
         {d:'12',m:'ALDREES fuel',c:'Transport',a:115},
         {d:'13',m:'TABOLAH CHICKEN',c:'Food & dining',a:91},
         {d:'14',m:'Shawerma house',c:'Food & dining',a:16},
-        {d:'14',m:'Children AlWorood',c:'Kids & school',a:300},
+        {d:'14',m:'Children AlWorood',c:'Lifestyle',a:300},
       ]},
       {label:'Week 3',range:'15 – 21 Mar',txs:[
-        {d:'15',m:'URPay (Lebanon transfer)',c:'Kids & school',a:150},
         {d:'15',m:'Faisal Za (groceries)',c:'Groceries',a:25},
         {d:'15',m:'Maria — Ecole Francaise pre-reg',c:'Kids & school',a:5000},
         {d:'17',m:'Luxury gold & jewelry',c:'One-off',a:10000},
@@ -392,12 +405,12 @@ const MONTHS={
         {d:'21',m:'q-Dutch Brunch',c:'Food & dining',a:174},
       ]},
       {label:'Week 4',range:'22 – 31 Mar',txs:[
-        {d:'22',m:'Star Ryan (kids store)',c:'Kids & school',a:1450},
+        {d:'22',m:'Star Ryan (kids store)',c:'Lifestyle',a:1450},
         {d:'22',m:'ALDREES fuel',c:'Transport',a:127},
         {d:'22',m:'Faten AlAmniyah',c:'Household',a:93},
         {d:'23',m:'PANDA RETAIL',c:'Groceries',a:598},
         {d:'23',m:'VALORA HOMES',c:'Household',a:35},
-        {d:'24',m:'LEEJAM SPORT COMPANY',c:'Household',a:2189},
+        {d:'24',m:'LEEJAM SPORT (Walid gym)',c:'Lifestyle',a:2189},
         {d:'25',m:'AliExpress',c:'Online',a:234},
         {d:'26',m:'BAJH TRADING EST',c:'Groceries',a:198},
         {d:'27',m:'IKEA',c:'Household',a:1657},
@@ -408,14 +421,14 @@ const MONTHS={
         {d:'30',m:'Fostoq Ozaiton (groceries)',c:'Groceries',a:7},
         {d:'31',m:'www.calo.app meal plan',c:'Food & dining',a:976},
         {d:'31',m:'Beehive Cafe',c:'Food & dining',a:22},
-        {d:'31',m:'Bodymasters gym (Farah)',c:'Household',a:999},
+        {d:'31',m:'Bodymasters gym (Farah)',c:'Lifestyle',a:999},
         {d:'31',m:'Saudi Electricity (SEC)',c:'Utilities',a:166},
       ]},
     ]
   },
   apr:{
     label:'April 2026',
-    total:29731,
+    total:30098,
     weeks:[
       {label:'Week 1',range:'1 – 7 Apr',txs:[
         {d:'01',m:'GOLDEN ZO restaurant',c:'Food & dining',a:289},
@@ -450,6 +463,7 @@ const MONTHS={
         {d:'14',m:'Amazon SA',c:'Online',a:57},
       ]},
       {label:'Week 3',range:'15 – 21 Apr',txs:[
+        {d:'20',m:'WAHPRINTS Doha (travel card)',c:'Vacation',a:367},
         {d:'16',m:'Innovative Union Co',c:'Lifestyle',a:54},
         {d:'16',m:'AL Hatab Bakery',c:'Food & dining',a:2},
         {d:'16',m:'HungerStation',c:'Food & dining',a:52},
@@ -473,8 +487,8 @@ const MONTHS={
         {d:'29',m:'Specialized Medical Co',c:'Health',a:157},
         {d:'29',m:'Sydlyt pharmacy',c:'Health',a:30},
         {d:'30',m:'Specialized Medical Co',c:'Health',a:153},
-        {d:'30',m:'Bodymasters gym (Farah)',c:'Household',a:999},
-        {d:'01',m:'Soham Al Farah Est',c:'Kids & school',a:20},
+        {d:'30',m:'Bodymasters gym (Farah)',c:'Lifestyle',a:999},
+        {d:'01',m:'Soham Al Farah Est',c:'Lifestyle',a:20},
         {d:'01',m:'Bobs Nakheel restaurant',c:'Food & dining',a:170},
         {d:'01',m:'BENEFIT beauty',c:'Lifestyle',a:95},
         {d:'02',m:'AL-OTHAIM MARKETS',c:'Groceries',a:18},
@@ -489,12 +503,12 @@ const MONTHS={
   },
   may:{
     label:'May 2026',
-    total:23474,
+    total:30917,
     weeks:[
       {label:'Week 1',range:'1 – 7 May',txs:[
         {d:'01',m:'Homs AlAsi restaurant',c:'Food & dining',a:69},
         {d:'02',m:'Keemart',c:'Groceries',a:187},
-        {d:'02',m:'MEED EXIT toll',c:'Transport',a:450},
+        {d:'02',m:'MEED EXIT',c:'Food & dining',a:450},
         {d:'02',m:'Amazon SA',c:'Online',a:340},
         {d:'02',m:'q-Sugarhive',c:'Food & dining',a:158},
         {d:'02',m:'Saruja Restaurant',c:'Food & dining',a:250},
@@ -536,6 +550,7 @@ const MONTHS={
         {d:'14',m:'Nahdi pharmacy (online)',c:'Health',a:46},
         {d:'14',m:'Gawarib (daily)',c:'Food & dining',a:44},
         {d:'14',m:'Baskin Robbins',c:'Food & dining',a:38},
+        {d:'14',m:'Egy Euro (tour operator)',c:'Vacation',a:6148},
       ]},
       {label:'Week 3',range:'15 – 21 May',txs:[
         {d:'15',m:'SAUDI ELECTRICITY',c:'Utilities',a:136},
@@ -569,7 +584,7 @@ const MONTHS={
         {d:'24',m:'SPAQAT AL SARAA',c:'Lifestyle',a:150},
         {d:'24',m:'SPAQAT AL SARAA',c:'Lifestyle',a:190},
         {d:'24',m:'Burj Alhamam restaurant',c:'Food & dining',a:263},
-        {d:'24',m:'FLYNAS flights',c:'One-off',a:7966},
+        {d:'24',m:'FLYNAS flights',c:'Vacation',a:7966},
         {d:'24',m:'Saudi Austrian Entertainment',c:'Lifestyle',a:141},
         {d:'25',m:'HungerStation',c:'Food & dining',a:138},
         {d:'25',m:'Island Branch Co',c:'Groceries',a:124},
@@ -577,24 +592,29 @@ const MONTHS={
         {d:'25',m:'Uber',c:'Transport',a:16},
         {d:'25',m:'Sydlyt pharmacy',c:'Health',a:24},
         {d:'25',m:'Specialized Medical Co',c:'Health',a:40},
-        {d:'26',m:'MEED EXIT toll',c:'Transport',a:48},
-        {d:'26',m:'Ghasson Alfekrah',c:'One-off',a:2095},
+        {d:'26',m:'MEED EXIT',c:'Food & dining',a:48},
+        {d:'26',m:'Ghasson Alfekrah',c:'Lifestyle',a:2095},
         {d:'27',m:'Keemart',c:'Groceries',a:42},
         {d:'27',m:'S163 Tamimi Markets',c:'Groceries',a:50},
         {d:'28',m:'PETROMIN fuel',c:'Transport',a:110},
-        {d:'28',m:'MEED EXIT toll',c:'Transport',a:15},
+        {d:'28',m:'MEED EXIT',c:'Food & dining',a:15},
         {d:'28',m:'HungerStation',c:'Food & dining',a:137},
         {d:'28',m:'Doc Delivery',c:'Online',a:50},
+        {d:'28',m:'Nasr El Sayed Fares (Egypt)',c:'Vacation',a:568},
+        {d:'28',m:'FawryPF MODA (Egypt)',c:'Vacation',a:373},
         {d:'29',m:'A Station Cafe',c:'Food & dining',a:12},
         {d:'29',m:'Beehive Cafe',c:'Food & dining',a:12},
         {d:'29',m:'Brands For Less',c:'Lifestyle',a:69},
         {d:'29',m:'Center Point',c:'Lifestyle',a:222},
         {d:'29',m:'Pizza Company',c:'Food & dining',a:41},
+        {d:'29',m:'Dolphina-Hadaba (travel card)',c:'Vacation',a:132},
+        {d:'29',m:'FawryPF Top Art (Egypt)',c:'Vacation',a:75},
         {d:'30',m:'HungerStation',c:'Food & dining',a:111},
         {d:'30',m:'HungerStation',c:'Food & dining',a:101},
         {d:'30',m:'Sanaa AlNakha',c:'Lifestyle',a:99},
         {d:'30',m:'SAHEL STATION fuel',c:'Transport',a:118},
         {d:'30',m:'Amazon SA',c:'Online',a:163},
+        {d:'31',m:'Saint Maria (Egypt)',c:'Vacation',a:147},
       ]},
     ]
   },
@@ -656,7 +676,7 @@ const MONTHS={
         {d:'16',m:'SAUDI ELECTRICITY',c:'Utilities',a:167},
         {d:'16',m:'Keemart',c:'Groceries',a:82},
         {d:'16',m:'Island Branch Co',c:'Groceries',a:144},
-        {d:'16',m:'Alsnat Lltjart',c:'One-off',a:1699},
+        {d:'16',m:'Alsnat Lltjart',c:'Lifestyle',a:1699},
         {d:'16',m:'Alshaya.com',c:'Online',a:243},
         {d:'16',m:'Doc Delivery',c:'Online',a:76},
         {d:'17',m:'PETROLY fuel',c:'Transport',a:102},
@@ -668,7 +688,7 @@ const MONTHS={
         {d:'18',m:'MY STC',c:'Utilities',a:35},
         {d:'18',m:'Gawarib (daily)',c:'Food & dining',a:26},
         {d:'18',m:'Amazon SA',c:'Online',a:126},
-        {d:'19',m:'MEED EXIT toll',c:'Transport',a:28},
+        {d:'19',m:'MEED EXIT',c:'Food & dining',a:28},
         {d:'19',m:'Mobily',c:'Utilities',a:35},
         {d:'19',m:'Gawarib (daily)',c:'Food & dining',a:41},
         {d:'19',m:'Island Branch Co',c:'Groceries',a:71},
@@ -686,12 +706,12 @@ const MONTHS={
         {d:'22',m:'HungerStation',c:'Food & dining',a:46},
         {d:'22',m:'2 GO Outlet',c:'Lifestyle',a:40},
         {d:'23',m:'Shawarma House',c:'Food & dining',a:53},
-        {d:'24',m:'Alwaha Duty Free',c:'Lifestyle',a:54},
+        {d:'24',m:'Alwaha Duty Free',c:'Vacation',a:54},
         {d:'24',m:'Lemon Co',c:'Food & dining',a:18},
         {d:'24',m:'tap Keemart',c:'Groceries',a:60},
-        {d:'26',m:'Super Eyes (Egypt trip)',c:'One-off',a:284},
-        {d:'26',m:'Dolphina Hadaba (Egypt trip)',c:'One-off',a:978},
-        {d:'29',m:'EgyptAir (Sharm)',c:'One-off',a:703},
+        {d:'26',m:'Super Eyes (Egypt trip)',c:'Vacation',a:284},
+        {d:'26',m:'Dolphina Hadaba (Egypt trip)',c:'Vacation',a:978},
+        {d:'29',m:'EgyptAir (Sharm)',c:'Vacation',a:703},
         {d:'29',m:'Shawarma house',c:'Food & dining',a:121},
         {d:'30',m:'HungerStation',c:'Food & dining',a:121},
         {d:'30',m:'Ecole Francaise (school fees)',c:'Kids & school',a:9600},
@@ -762,7 +782,7 @@ new Chart(document.getElementById('trendChart').getContext('2d'),{
     labels:['Jan','Feb','Mar','Apr','May','Jun'],
     datasets:[
       {label:'Fixed',data:[11724,11724,11724,11724,11724,11724],backgroundColor:'#B5D4F4',borderRadius:0,stack:'s'},
-      {label:'Variable',data:[13118,17255,22749,29731,23474,27564],backgroundColor:['#9FE1CB','#EF9F27','#F0997B','#D85A30','#EF9F27','#F0997B'],stack:'s',borderRadius:4},
+      {label:'Variable',data:[13118,17255,22749,30098,30917,27564],backgroundColor:['#9FE1CB','#EF9F27','#F0997B','#D85A30','#EF9F27','#F0997B'],stack:'s',borderRadius:4},
     ]
   },
   options:{
@@ -780,6 +800,63 @@ new Chart(document.getElementById('trendChart').getContext('2d'),{
     }
   }
 });
+
+// horizontal bar value labels
+const valLabel={
+  id:'valLabel',
+  afterDatasetsDraw(c){
+    const{ctx}=c;ctx.save();
+    const meta=c.getDatasetMeta(0);
+    meta.data.forEach((bar,i)=>{
+      const v=c.data.datasets[0].data[i];
+      ctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--text2')||'#666';
+      ctx.font='10px -apple-system,sans-serif';ctx.textBaseline='middle';
+      ctx.fillText(v.toLocaleString(), bar.x+6, bar.y);
+    });
+    ctx.restore();
+  }
+};
+const CATC=CAT_COLORS;
+const M_ORDER=['jan','feb','mar','apr','may','june'];
+const M_ABBR={jan:'Jan',feb:'Feb',mar:'Mar',apr:'Apr',may:'May',june:'Jun'};
+function showCatDrill(cat){
+  let rows=[],total=0;
+  M_ORDER.forEach(k=>{ if(!MONTHS[k])return;
+    MONTHS[k].weeks.forEach(w=>w.txs.forEach(t=>{ if(t.c===cat){rows.push({mo:M_ABBR[k],d:t.d,m:t.m,a:t.a}); total+=t.a;} })); });
+  rows.sort((a,b)=> b.a-a.a);
+  const col=CAT_COLORS[cat]||'#888780';
+  let h=`<div class="sg" style="margin-top:0.5rem"><div class="sg-t"><span style="color:${col};font-weight:600">${cat} — ${rows.length} transactions YTD</span><span>${total.toLocaleString()} SAR</span></div>`;
+  rows.forEach(r=>{ h+=`<div style="display:grid;grid-template-columns:54px 1fr 84px;gap:8px;align-items:baseline;padding:6px 1rem;border-bottom:0.5px solid var(--border);font-size:12px"><span style="color:var(--text3);font-size:11px">${r.mo} ${r.d}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.m}</span><span style="font-weight:500;text-align:right;white-space:nowrap">${r.a.toLocaleString()}</span></div>`; });
+  h+=`<div style="font-size:10px;color:var(--text3);padding:8px 1rem">Sorted by amount · derived from itemized transactions (Jan–Apr representative, May–Jun statement-accurate).</div></div>`;
+  const el=document.getElementById('catDrill'); el.innerHTML=h; el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function showFixedDrill(label,val){
+  const mo=Math.round(val/6);
+  const note={'Abyan investment':'Auto-deducted from SAB salary each month','Lebanon support':'$715/mo locked · rate 3.75 · across UrPay / FX / Mobily Pay','Helper salary':'Maharah HR · monthly','School driver':'Mohamad Ahmad · AlRajhi transfer · monthly','STC bundle':'Walid + Farah + home internet · all-in','Electricity (SEC)':'Seasonal average','Netflix':'Monthly subscription','Amazon Prime':'Monthly subscription'}[label]||'Fixed monthly commitment';
+  let h=`<div class="sg" style="margin-top:0.5rem"><div class="sg-t"><span style="color:#185FA5;font-weight:600">${label} — fixed</span><span>${val.toLocaleString()} SAR YTD</span></div>`;
+  h+=`<div style="padding:8px 1rem;font-size:12px;color:var(--text2)">≈ <b style="color:var(--text)">${mo.toLocaleString()} SAR/mo</b> × 6 months. ${note}.<br><span style="font-size:10px;color:var(--text3)">Fixed costs are modelled as a constant monthly figure, so there is no per-transaction list for this line.</span></div></div>`;
+  const el=document.getElementById('catDrill'); el.innerHTML=h; el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+new Chart(document.getElementById('fixedCatChart').getContext('2d'),{
+  type:'bar',
+  data:{labels:["Abyan investment", "Lebanon support", "Helper salary", "School driver", "STC bundle", "Electricity (SEC)", "Netflix", "Amazon Prime"],datasets:[{data:[30000, 16086, 10800, 6000, 6000, 1062, 300, 96],backgroundColor:'#185FA5',borderRadius:4,barThickness:14}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:46}},onClick:(e,els,ch)=>{if(els.length)showFixedDrill(ch.data.labels[els[0].index],ch.data.datasets[0].data[els[0].index]);},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.x.toLocaleString()+' SAR'}}},
+    scales:{x:{ticks:{callback:v=>v.toLocaleString(),font:{size:10}},grid:{color:'rgba(128,128,128,0.07)'}},
+            y:{ticks:{font:{size:11}},grid:{display:false}}}},
+  plugins:[valLabel]
+});
+new Chart(document.getElementById('varCatChart').getContext('2d'),{
+  type:'bar',
+  data:{labels:["Lifestyle", "Kids & school", "Vacation", "Food & dining", "One-off", "Groceries", "Utilities", "Online", "Transport", "Household", "Health"],datasets:[{data:[21235, 18050, 17795, 15072, 10000, 9951, 9765, 8392, 6368, 4954, 1712],backgroundColor:["Lifestyle", "Kids & school", "Vacation", "Food & dining", "One-off", "Groceries", "Utilities", "Online", "Transport", "Household", "Health"].map(l=>CATC[l]||'#888780'),borderRadius:4,barThickness:14}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:46}},onClick:(e,els,ch)=>{if(els.length)showCatDrill(ch.data.labels[els[0].index]);},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.x.toLocaleString()+' SAR'}}},
+    scales:{x:{ticks:{callback:v=>v.toLocaleString(),font:{size:10}},grid:{color:'rgba(128,128,128,0.07)'}},
+            y:{ticks:{font:{size:11}},grid:{display:false}}}},
+  plugins:[valLabel]
+});
+
 
 showMonth('jan', document.querySelector('.mtab.on'));
 </script>
