@@ -80,9 +80,9 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
 
 <header>
   <h1>Family expense dashboard — 2026</h1>
-  <p>SAB Visa · AlRajhi · Jan – Apr 2026 · All amounts SAR · Expenses only</p>
-  <span class="badge bnew">v5 — weekly view</span>
-  <span class="badge bsrc">SAB + AlRajhi · 10 statements</span>
+  <p>SAB Visa · AlRajhi · Jan – Jun 2026 · All amounts SAR · Expenses only</p>
+  <span class="badge bnew">v6 — Jun update</span>
+  <span class="badge bsrc">SAB + AlRajhi · 15 statements</span>
 </header>
 
 <!-- ═══════════ FIXED COSTS ═══════════ -->
@@ -139,11 +139,23 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
     <div class="sum-fix" style="color:var(--text3)">Fixed: 11,724</div>
     <div class="sum-var" style="color:#D85A30">Variable: 29,731</div>
   </div>
+  <div class="sum-card">
+    <div class="sum-lbl">May</div>
+    <div class="sum-val">35,198</div>
+    <div class="sum-fix" style="color:var(--text3)">Fixed: 11,724</div>
+    <div class="sum-var" style="color:#D85A30">Variable: 23,474</div>
+  </div>
+  <div class="sum-card">
+    <div class="sum-lbl">June</div>
+    <div class="sum-val">39,288</div>
+    <div class="sum-fix" style="color:var(--text3)">Fixed: 11,724</div>
+    <div class="sum-var" style="color:#D85A30">Variable: 27,564</div>
+  </div>
 </div>
 <div class="card">
   <div class="card-t">Total expenses by month — fixed vs variable (SAR)</div>
   <div class="cw" style="height:210px">
-    <canvas id="trendChart" role="img" aria-label="Stacked monthly expenses fixed and variable Jan to Apr 2026">Fixed 11724 each month. Variable: Jan 13118, Feb 17255, Mar 22749, Apr 29731</canvas>
+    <canvas id="trendChart" role="img" aria-label="Stacked monthly expenses fixed and variable Jan to Jun 2026">Fixed 11724 each month. Variable: Jan 13118, Feb 17255, Mar 22749, Apr 29731, May 23474, Jun 27564</canvas>
   </div>
 </div>
 
@@ -167,19 +179,29 @@ footer{margin-top:3rem;padding-top:1rem;border-top:0.5px solid var(--border);fon
   <button class="mtab" onclick="showMonth('feb',this)">February</button>
   <button class="mtab" onclick="showMonth('mar',this)">March</button>
   <button class="mtab" onclick="showMonth('apr',this)">April</button>
+  <button class="mtab" onclick="showMonth('may',this)">May</button>
+  <button class="mtab" onclick="showMonth('june',this)">June</button>
 </div>
 
 <div id="txPanel"></div>
 
 <!-- ═══════════ FLAGS ═══════════ -->
 <div class="sec">Flags & observations</div>
-<div class="alert ar"><b>Variable spend is rising every month</b> — Jan 13,118 → Apr 29,731. Apr is driven by the 10,000 SAR jewelry purchase. Strip that out and Apr variable is ~19,731 — still the second-highest month.</div>
+<div class="alert ar"><b>Variable spend, 6-month view</b> — Jan 13,118 → Apr 29,731, then May 23,474 and Jun 27,564. The Apr–Jun plateau is driven by large one-offs each month (Apr: 10,000 jewelry; May: 7,966 Flynas flights; Jun: 9,600 Ecole Francaise school fees + 1,965 Egypt travel). Stripping one-offs, underlying monthly variable is ~13–19k.</div>
 <div class="alert ar"><b>Food delivery growing fast</b> — HungerStation + Keeta went from 310 SAR in Jan to 1,645 SAR in Apr. Consider a 1,000 SAR/mo cap on delivery apps.</div>
 <div class="alert aa"><b>Farah's supplementary card</b> runs ~4,350 SAR/mo embedded in the Visa bill — groceries, fashion, Amazon, medical. No separate budget currently assigned.</div>
 <div class="alert aa"><b>Lebanon transfers use 3 different channels</b> — UrPay, FX exchange, Mobily Pay. Consolidating to one channel monthly will make tracking cleaner.</div>
 <div class="alert ag"><b>No credit card interest</b> across all statements. Full balance cleared every cycle on SAB Visa and AlRajhi card.</div>
 
-<footer>SAB + AlRajhi · Jan – Apr 2026 · Expenses only · Confidential — family use only · v5 · Updated 26 Apr 2026</footer>
+<div class="alert ar">
+<b>June: 9,600 SAR school fees hit early</b> — Ecole Francaise charged 9,600 on 30 May (on the Jun statement). This contradicts the "annual one-off in August" assumption — Ecole now appears as a large mid-year charge plus the recurring ~1,150 term fees. Worth confirming the full-year payment schedule so August isn't double-budgeted.</div>
+<div class="alert ar">
+<b>Travel concentration</b> — Flynas 7,966 (Apr/May statement) and an Egypt trip (~1,965: Dolphina, EgyptAir Sharm, Super Eyes) in late May. Combined ~9,900 SAR of travel across two cycles, none of it in the fixed budget.</div>
+<div class="alert aa">
+<b>MasterCard (7539370283) not in the monthly totals</b> — kept Visa-only for trend continuity since Jan–Mar MasterCard data isn't loaded. Notable MasterCard items: Apr — Claude.ai 882, Philip Morris 440, ChatGPT 88, annual fee 1,093; May — Mideasta (Jeddah) 3,773, Airalo eSIM 126. Flag if you want these folded into the headline figures going forward.</div>
+<div class="alert ag">
+<b>May driver fee paid (AlRajhi)</b> — the 1,000 SAR school-driver transfer (Mohamad Ahmad) is already inside the fixed 11,724/mo, so May is fully accounted for. No separate line added to avoid double-counting.</div>
+<footer>SAB + AlRajhi · Jan – Jun 2026 · Expenses only · Confidential — family use only · v6 · Updated 21 Jun 2026</footer>
 </div>
 
 <script>
@@ -464,6 +486,225 @@ const MONTHS={
         {d:'06',m:'UBER TRIP',c:'Transport',a:93},
       ]},
     ]
+  },
+  may:{
+    label:'May 2026',
+    total:23474,
+    weeks:[
+      {label:'Week 1',range:'1 – 7 May',txs:[
+        {d:'01',m:'Homs AlAsi restaurant',c:'Food & dining',a:69},
+        {d:'02',m:'Keemart',c:'Groceries',a:187},
+        {d:'02',m:'MEED EXIT toll',c:'Transport',a:450},
+        {d:'02',m:'Amazon SA',c:'Online',a:340},
+        {d:'02',m:'q-Sugarhive',c:'Food & dining',a:158},
+        {d:'02',m:'Saruja Restaurant',c:'Food & dining',a:250},
+        {d:'03',m:'Specialized Medical Co',c:'Health',a:23},
+        {d:'03',m:'Gawarib (daily)',c:'Food & dining',a:35},
+        {d:'04',m:'Zahra Jnan',c:'Food & dining',a:36},
+        {d:'04',m:'Gawarib (daily)',c:'Food & dining',a:28},
+        {d:'05',m:'PETROMIN fuel',c:'Transport',a:105},
+        {d:'05',m:'Gawarib (daily)',c:'Food & dining',a:28},
+        {d:'05',m:'6thStreet',c:'Lifestyle',a:368},
+        {d:'05',m:'Amazon SA',c:'Online',a:97},
+        {d:'06',m:'STC postpaid',c:'Utilities',a:932},
+        {d:'06',m:'HungerStation',c:'Food & dining',a:96},
+        {d:'06',m:'Gawarib (daily)',c:'Food & dining',a:18},
+        {d:'06',m:'Island Branch Co',c:'Groceries',a:167},
+        {d:'06',m:'HungerStation',c:'Food & dining',a:149},
+        {d:'07',m:'Alhussain Top Up',c:'Online',a:305},
+        {d:'07',m:'Shawarma house',c:'Food & dining',a:155},
+      ]},
+      {label:'Week 2',range:'8 – 14 May',txs:[
+        {d:'08',m:'Arij Alsuhul',c:'Lifestyle',a:163},
+        {d:'08',m:'McDonalds',c:'Food & dining',a:261},
+        {d:'08',m:'ToYou',c:'Food & dining',a:90},
+        {d:'09',m:'S131 Tamimi Markets',c:'Groceries',a:234},
+        {d:'09',m:'S131 Tamimi Markets',c:'Groceries',a:500},
+        {d:'09',m:'Shrimp Anatomy restaurant',c:'Food & dining',a:288},
+        {d:'09',m:'Riyadh Parking',c:'Transport',a:7},
+        {d:'09',m:'Amazon SA',c:'Online',a:107},
+        {d:'09',m:'EXTRA electronics',c:'Online',a:440},
+        {d:'10',m:'AliExpress',c:'Online',a:290},
+        {d:'10',m:'Gawarib (daily)',c:'Food & dining',a:28},
+        {d:'11',m:'Gawarib (daily)',c:'Food & dining',a:28},
+        {d:'11',m:'Keemart',c:'Groceries',a:42},
+        {d:'12',m:'TRANSIT',c:'Transport',a:117},
+        {d:'12',m:'Riyadh Parking',c:'Transport',a:3},
+        {d:'12',m:'Gawarib (daily)',c:'Food & dining',a:32},
+        {d:'13',m:'Gawarib (daily)',c:'Food & dining',a:28},
+        {d:'13',m:'WELL GAS STATION',c:'Transport',a:135},
+        {d:'14',m:'Nahdi pharmacy (online)',c:'Health',a:46},
+        {d:'14',m:'Gawarib (daily)',c:'Food & dining',a:44},
+        {d:'14',m:'Baskin Robbins',c:'Food & dining',a:38},
+      ]},
+      {label:'Week 3',range:'15 – 21 May',txs:[
+        {d:'15',m:'SAUDI ELECTRICITY',c:'Utilities',a:136},
+        {d:'15',m:'Almanhal Water',c:'Groceries',a:260},
+        {d:'16',m:'Rwanza Trading',c:'Household',a:100},
+        {d:'16',m:'Ice Cream Frozen',c:'Food & dining',a:38},
+        {d:'16',m:'NETFLIX subscription',c:'Utilities',a:50},
+        {d:'16',m:'Lebara Mobile',c:'Utilities',a:35},
+        {d:'16',m:'Keeta',c:'Food & dining',a:74},
+        {d:'17',m:'Shawarma house',c:'Food & dining',a:137},
+        {d:'17',m:'Keemart',c:'Groceries',a:41},
+        {d:'18',m:'SNIPS SALON',c:'Lifestyle',a:165},
+        {d:'18',m:'Danube',c:'Groceries',a:321},
+        {d:'19',m:'Amazon Now',c:'Online',a:60},
+        {d:'20',m:'Hala Yala (events)',c:'Lifestyle',a:628},
+        {d:'20',m:'Keeta',c:'Food & dining',a:96},
+        {d:'21',m:'Island Branch Co',c:'Groceries',a:106},
+        {d:'21',m:'ALDREES fuel',c:'Transport',a:97},
+        {d:'21',m:'ARAMCO fuel',c:'Transport',a:133},
+      ]},
+      {label:'Week 4',range:'22 – 31 May',txs:[
+        {d:'22',m:'HungerStation',c:'Food & dining',a:90},
+        {d:'23',m:'IKEA',c:'Household',a:243},
+        {d:'23',m:'IKEA',c:'Household',a:149},
+        {d:'23',m:'Amazon Now',c:'Online',a:45},
+        {d:'23',m:'Sanaa AlNakha',c:'Lifestyle',a:99},
+        {d:'23',m:'Keemart',c:'Groceries',a:52},
+        {d:'23',m:'Zara View Mall',c:'Lifestyle',a:179},
+        {d:'23',m:'Centrepoint',c:'Lifestyle',a:273},
+        {d:'23',m:'Brands For Less',c:'Lifestyle',a:78},
+        {d:'24',m:'SPAQAT AL SARAA',c:'Lifestyle',a:150},
+        {d:'24',m:'SPAQAT AL SARAA',c:'Lifestyle',a:190},
+        {d:'24',m:'Burj Alhamam restaurant',c:'Food & dining',a:263},
+        {d:'24',m:'FLYNAS flights',c:'One-off',a:7966},
+        {d:'24',m:'Saudi Austrian Entertainment',c:'Lifestyle',a:141},
+        {d:'25',m:'HungerStation',c:'Food & dining',a:138},
+        {d:'25',m:'Island Branch Co',c:'Groceries',a:124},
+        {d:'25',m:'HungerStation (Dubai)',c:'Food & dining',a:49},
+        {d:'25',m:'Uber',c:'Transport',a:16},
+        {d:'25',m:'Sydlyt pharmacy',c:'Health',a:24},
+        {d:'25',m:'Specialized Medical Co',c:'Health',a:40},
+        {d:'26',m:'MEED EXIT toll',c:'Transport',a:48},
+        {d:'26',m:'Ghasson Alfekrah',c:'One-off',a:2095},
+        {d:'27',m:'Keemart',c:'Groceries',a:42},
+        {d:'27',m:'S163 Tamimi Markets',c:'Groceries',a:50},
+        {d:'28',m:'PETROMIN fuel',c:'Transport',a:110},
+        {d:'28',m:'MEED EXIT toll',c:'Transport',a:15},
+        {d:'28',m:'HungerStation',c:'Food & dining',a:137},
+        {d:'28',m:'Doc Delivery',c:'Online',a:50},
+        {d:'29',m:'A Station Cafe',c:'Food & dining',a:12},
+        {d:'29',m:'Beehive Cafe',c:'Food & dining',a:12},
+        {d:'29',m:'Brands For Less',c:'Lifestyle',a:69},
+        {d:'29',m:'Center Point',c:'Lifestyle',a:222},
+        {d:'29',m:'Pizza Company',c:'Food & dining',a:41},
+        {d:'30',m:'HungerStation',c:'Food & dining',a:111},
+        {d:'30',m:'HungerStation',c:'Food & dining',a:101},
+        {d:'30',m:'Sanaa AlNakha',c:'Lifestyle',a:99},
+        {d:'30',m:'SAHEL STATION fuel',c:'Transport',a:118},
+        {d:'30',m:'Amazon SA',c:'Online',a:163},
+      ]},
+    ]
+  },
+  june:{
+    label:'June 2026',
+    total:27564,
+    weeks:[
+      {label:'Week 1',range:'1 – 7 Jun',txs:[
+        {d:'02',m:'Jenan Al Qassem',c:'Food & dining',a:50},
+        {d:'02',m:'AliExpress',c:'Online',a:324},
+        {d:'04',m:'Athlocity Sports',c:'Lifestyle',a:228},
+        {d:'04',m:'HungerStation',c:'Food & dining',a:189},
+        {d:'04',m:'Hassa Road Petromin',c:'Transport',a:126},
+        {d:'05',m:'STC Bank',c:'Utilities',a:100},
+        {d:'05',m:'Shawarma house',c:'Food & dining',a:231},
+        {d:'06',m:'Island Branch Co',c:'Groceries',a:45},
+        {d:'06',m:'STC postpaid',c:'Utilities',a:941},
+        {d:'06',m:'Matam Asmak Nawara',c:'Food & dining',a:159},
+        {d:'06',m:'Keemart',c:'Groceries',a:80},
+        {d:'06',m:'Danube',c:'Groceries',a:115},
+        {d:'06',m:'Nova Water',c:'Groceries',a:179},
+        {d:'07',m:'Aldrees fuel',c:'Transport',a:116},
+        {d:'07',m:'Amazon SA',c:'Online',a:280},
+      ]},
+      {label:'Week 2',range:'8 – 14 Jun',txs:[
+        {d:'08',m:'Mujtamae Aldhawaqa',c:'Food & dining',a:69},
+        {d:'08',m:'Nike',c:'Lifestyle',a:229},
+        {d:'08',m:'Robertos Club',c:'Food & dining',a:120},
+        {d:'08',m:'Wraps Arabia',c:'Food & dining',a:55},
+        {d:'08',m:'ZARA',c:'Lifestyle',a:170},
+        {d:'08',m:'Mujtamae Aldhawaqa',c:'Food & dining',a:56},
+        {d:'08',m:'NOON',c:'Online',a:54},
+        {d:'10',m:'Roanza Est',c:'Lifestyle',a:100},
+        {d:'10',m:'tap Keemart',c:'Groceries',a:35},
+        {d:'11',m:'Shawarma house',c:'Food & dining',a:178},
+        {d:'11',m:'NAFT fuel',c:'Transport',a:132},
+        {d:'12',m:'HungerStation',c:'Food & dining',a:143},
+        {d:'12',m:'NEXT',c:'Lifestyle',a:109},
+        {d:'12',m:'tap Keemart',c:'Groceries',a:37},
+        {d:'13',m:'Island Branch Co',c:'Groceries',a:235},
+        {d:'13',m:'Petromin fuel',c:'Transport',a:869},
+        {d:'13',m:'q-Jamies Italian',c:'Food & dining',a:404},
+        {d:'13',m:'NOON',c:'Online',a:260},
+        {d:'13',m:'HungerStation',c:'Food & dining',a:98},
+        {d:'13',m:'Keeta',c:'Food & dining',a:54},
+        {d:'14',m:'SAUDI ELECTRICITY',c:'Utilities',a:393},
+        {d:'14',m:'Petromin Express fuel',c:'Transport',a:1032},
+        {d:'14',m:'SASCO fuel',c:'Transport',a:121},
+        {d:'14',m:'AL Hatab Bakery',c:'Food & dining',a:50},
+        {d:'14',m:'BAJH Trading',c:'Groceries',a:65},
+      ]},
+      {label:'Week 3',range:'15 – 21 Jun',txs:[
+        {d:'15',m:'Goodies Selections Bakery',c:'Food & dining',a:441},
+        {d:'15',m:'ALQARAWI shoes',c:'Lifestyle',a:299},
+        {d:'15',m:'Specialized Medical Co',c:'Health',a:40},
+        {d:'15',m:'Alshaya.com',c:'Online',a:201},
+        {d:'15',m:'HungerStation',c:'Food & dining',a:87},
+        {d:'15',m:'NOON',c:'Online',a:301},
+        {d:'16',m:'SAUDI ELECTRICITY',c:'Utilities',a:167},
+        {d:'16',m:'Keemart',c:'Groceries',a:82},
+        {d:'16',m:'Island Branch Co',c:'Groceries',a:144},
+        {d:'16',m:'Alsnat Lltjart',c:'One-off',a:1699},
+        {d:'16',m:'Alshaya.com',c:'Online',a:243},
+        {d:'16',m:'Doc Delivery',c:'Online',a:76},
+        {d:'17',m:'PETROLY fuel',c:'Transport',a:102},
+        {d:'17',m:'Jarir Bookstore',c:'Lifestyle',a:59},
+        {d:'17',m:'Gawarib (daily)',c:'Food & dining',a:16},
+        {d:'17',m:'NETFLIX subscription',c:'Utilities',a:50},
+        {d:'17',m:'Amazon SA',c:'Online',a:16},
+        {d:'18',m:'MY STC',c:'Utilities',a:29},
+        {d:'18',m:'MY STC',c:'Utilities',a:35},
+        {d:'18',m:'Gawarib (daily)',c:'Food & dining',a:26},
+        {d:'18',m:'Amazon SA',c:'Online',a:126},
+        {d:'19',m:'MEED EXIT toll',c:'Transport',a:28},
+        {d:'19',m:'Mobily',c:'Utilities',a:35},
+        {d:'19',m:'Gawarib (daily)',c:'Food & dining',a:41},
+        {d:'19',m:'Island Branch Co',c:'Groceries',a:71},
+        {d:'19',m:'Nike',c:'Lifestyle',a:326},
+        {d:'19',m:'Wooden Bakery',c:'Food & dining',a:25},
+        {d:'20',m:'Gawarib (daily)',c:'Food & dining',a:47},
+        {d:'21',m:'HungerStation',c:'Food & dining',a:56},
+        {d:'21',m:'2 GO Outlet',c:'Lifestyle',a:390},
+        {d:'21',m:'NMC pharmacy',c:'Health',a:36},
+      ]},
+      {label:'Week 4',range:'22 – 31 Jun',txs:[
+        {d:'22',m:'SNIPS SALON',c:'Lifestyle',a:125},
+        {d:'22',m:'Uber',c:'Transport',a:44},
+        {d:'22',m:'ALDREES fuel',c:'Transport',a:122},
+        {d:'22',m:'HungerStation',c:'Food & dining',a:46},
+        {d:'22',m:'2 GO Outlet',c:'Lifestyle',a:40},
+        {d:'23',m:'Shawarma House',c:'Food & dining',a:53},
+        {d:'24',m:'Alwaha Duty Free',c:'Lifestyle',a:54},
+        {d:'24',m:'Lemon Co',c:'Food & dining',a:18},
+        {d:'24',m:'tap Keemart',c:'Groceries',a:60},
+        {d:'26',m:'Super Eyes (Egypt trip)',c:'One-off',a:284},
+        {d:'26',m:'Dolphina Hadaba (Egypt trip)',c:'One-off',a:978},
+        {d:'29',m:'EgyptAir (Sharm)',c:'One-off',a:703},
+        {d:'29',m:'Shawarma house',c:'Food & dining',a:121},
+        {d:'30',m:'HungerStation',c:'Food & dining',a:121},
+        {d:'30',m:'Ecole Francaise (school fees)',c:'Kids & school',a:9600},
+        {d:'30',m:'HungerStation',c:'Food & dining',a:129},
+        {d:'30',m:'tap Keemart',c:'Groceries',a:42},
+        {d:'30',m:'tap Keemart',c:'Groceries',a:89},
+        {d:'31',m:'EMAAR Entertainment',c:'Lifestyle',a:27},
+        {d:'31',m:'Carrefour',c:'Groceries',a:68},
+        {d:'31',m:'Island Branch Co',c:'Groceries',a:239},
+        {d:'31',m:'Burj Alhamam restaurant',c:'Food & dining',a:98},
+        {d:'31',m:'Brands For Less',c:'Lifestyle',a:708},
+      ]},
+    ]
   }
 };
 
@@ -518,10 +759,10 @@ function toggleWeek(id){
 new Chart(document.getElementById('trendChart').getContext('2d'),{
   type:'bar',
   data:{
-    labels:['Jan','Feb','Mar','Apr'],
+    labels:['Jan','Feb','Mar','Apr','May','Jun'],
     datasets:[
-      {label:'Fixed',data:[11724,11724,11724,11724],backgroundColor:'#B5D4F4',borderRadius:0,stack:'s'},
-      {label:'Variable',data:[13118,17255,22749,29731],backgroundColor:['#9FE1CB','#EF9F27','#F0997B','#D85A30'],stack:'s',borderRadius:4},
+      {label:'Fixed',data:[11724,11724,11724,11724,11724,11724],backgroundColor:'#B5D4F4',borderRadius:0,stack:'s'},
+      {label:'Variable',data:[13118,17255,22749,29731,23474,27564],backgroundColor:['#9FE1CB','#EF9F27','#F0997B','#D85A30','#EF9F27','#F0997B'],stack:'s',borderRadius:4},
     ]
   },
   options:{
